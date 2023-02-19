@@ -15,6 +15,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Client\CallCenter.Client.csproj" />
 		<ProjectReference Include="..\Shared\CallCenter.Shared.csproj" />
+		<ProjectReference Include="..\Data\CallCenter.Data.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

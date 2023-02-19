@@ -10,7 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CallCenter.Shared", "Shared
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTests", "ClientTests\ClientTests.csproj", "{EAB51120-CC7F-4262-AE9C-69DCF3ED2029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallCenter.Data", "CallCenter.Data\CallCenter.Data.csproj", "{33D4B157-B960-456C-85CB-D7C1428E9B83}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallCenter.Data", "Data\CallCenter.Data.csproj", "{33D4B157-B960-456C-85CB-D7C1428E9B83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTests", "DataTests\DataTests.csproj", "{EDB6B226-7804-43BC-93F7-3089E8795AB2}"
 EndProject

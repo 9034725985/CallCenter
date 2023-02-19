@@ -28,7 +28,7 @@
 		<DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\CallCenter.Data\CallCenter.Data.csproj" />
+		<ProjectReference Include="..\Data\CallCenter.Data.csproj" />
 	</ItemGroup>
 
 </Project>
