@@ -1,7 +1,7 @@
+using CallCenter.Shared;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
-using CallCenter.Shared;
 
 namespace CallCenter.Server.Controllers;
 
