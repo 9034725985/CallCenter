@@ -37,3 +37,103 @@
 
 
 
+## Local deployment notes 
+
+For deployment to your own Linux machine (I use Fedora, highly recommended as it comes with dotnet), 
+I want to share a poor man's deployment option 
+you can write your appsettings.config file somewhere outside the repository
+then, you can copy this file into your publish folder to overwrite what you got from dotnet publish. 
+Here is some sample script: 
+
+```bash
+cd ~/src/dotnet/CallCenter/Server; 
+git remote update && git reset --hard @{u}; 
+time git pull; 
+time dotnet build; 
+time dotnet publish --configuration Release --os linux --self-contained true --verbosity detailed; 
+time cp ~/callcenterappconfig.json ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/publish/appsettings.json; 
+cd ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/publish/ && ./CallCenter.Server --urls "https://0.0.0.0:7109;http://0.0.0.0:5286"
+```
+
+Here is my `dotnet --info` on the fedora machine 
+
+```bash
+$ dotnet --info
+.NET SDK:
+ Version:   7.0.102
+ Commit:    4bbdd14480
+
+Runtime Environment:
+ OS Name:     fedora
+ OS Version:  36
+ OS Platform: Linux
+ RID:         fedora.36-x64
+ Base Path:   /usr/lib64/dotnet/sdk/7.0.102/
+
+Host:
+  Version:      7.0.2
+  Architecture: x64
+  Commit:       d037e070eb
+
+.NET SDKs installed:
+  3.1.424 [/usr/lib64/dotnet/sdk]
+  6.0.113 [/usr/lib64/dotnet/sdk]
+  7.0.102 [/usr/lib64/dotnet/sdk]
+
+.NET runtimes installed:
+  Microsoft.AspNetCore.App 3.1.30 [/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 6.0.13 [/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 7.0.2 [/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.NETCore.App 3.1.30 [/usr/lib64/dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 6.0.13 [/usr/lib64/dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 7.0.2 [/usr/lib64/dotnet/shared/Microsoft.NETCore.App]
+
+Other architectures found:
+  None
+
+Environment variables:
+  DOTNET_ROOT       [/usr/lib64/dotnet]
+
+global.json file:
+  Not found
+
+Learn more:
+  https://aka.ms/dotnet/info
+
+Download .NET:
+  https://aka.ms/dotnet/download
+```
+
+And there is my `dnf info dotnet`
+
+```bash
+$ dnf info dotnet
+Fedora 36 - x86_64                                                                                                                                                                                                                                       35 kB/s |  25 kB     00:00
+Fedora Modular 36 - x86_64                                                                                                                                                                                                                               39 kB/s |  24 kB     00:00
+Fedora 36 - x86_64 - Updates                                                                                                                                                                                                                             37 kB/s |  22 kB     00:00
+Fedora 36 - x86_64 - Updates                                                                                                                                                                                                                            895 kB/s | 3.1 MB     00:03
+Fedora Modular 36 - x86_64 - Updates                                                                                                                                                                                                                     36 kB/s |  23 kB     00:00
+Installed Packages
+Name         : dotnet
+Version      : 7.0.102
+Release      : 1.fc36
+Architecture : x86_64
+Size         : 0.0
+Source       : dotnet7.0-7.0.102-1.fc36.src.rpm
+Repository   : @System
+From repo    : updates
+Summary      : .NET CLI tools and runtime
+URL          : https://github.com/dotnet/
+License      : 0BSD AND Apache-2.0 AND (Apache-2.0 WITH LLVM-Exception) AND APSL-2.0 AND BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause AND BSL-1.0 AND bzip2-1.0.6 AND CC0-1.0 AND CC-BY-3.0 AND CC-BY-4.0 AND CC-PDDC AND CNRI-Python AND EPL-1.0 AND GPL-2.0-only AND (GPL-2.0-only
+             : WITH GCC-exception-2.0) AND GPL-2.0-or-later AND GPL-3.0-only AND ICU AND ISC AND LGPL-2.1-only AND LGPL-2.1-or-later AND LicenseRef-Fedora-Public-Domain AND LicenseRef-ISO-8879 AND MIT AND MIT-Wu AND MS-PL AND MS-RL AND NCSA AND OFL-1.1 AND OpenSSL AND
+             : Unicode-DFS-2015 AND Unicode-DFS-2016 AND W3C-19980720 AND X11 AND Zlib
+Description  : .NET is a fast, lightweight and modular platform for creating
+             : cross platform applications that work on Linux, macOS and Windows.
+             :
+             : It particularly focuses on creating console applications, web
+             : applications and micro-services.
+             :
+             : .NET contains a runtime conforming to .NET Standards a set of
+             : framework libraries, an SDK containing compilers and a 'dotnet'
+             : application to drive everything.
+```
