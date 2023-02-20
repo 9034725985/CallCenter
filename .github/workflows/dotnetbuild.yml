@@ -1,7 +1,7 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET Build and Test
+name: .NET Build
 
 on:
   [push, pull_request]
@@ -21,10 +21,4 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Set secret
-      shell: bash
-      env:
-        ELEPHANTSQL_CONNECTION_STRING: ${{ secrets.ELEPHANTSQL_CONNECTION_STRING }}
-      run: dotnet user-secrets set "ConnectionStrings:Default" "$ELEPHANTSQL_CONNECTION_STRING"
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+

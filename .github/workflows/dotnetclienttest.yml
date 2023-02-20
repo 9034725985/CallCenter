@@ -1,0 +1,21 @@
+name: Dotnet Client Tests
+
+on:
+  [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ClientTests
+    steps:
+    - uses: actions/checkout@v3
+    - name: pwd
+      run: pwd
+    - name: clean
+      run: dotnet clean
+    - name: build
+      run: dotnet build
+    - name: Test
+      run: dotnet test --verbosity normal

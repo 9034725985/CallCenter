@@ -1,0 +1,29 @@
+name: Dotnet Data Tests
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: DataTests
+    steps:
+    - uses: actions/checkout@v3
+    - name: pwd
+      run: pwd
+    - name: clean
+      run: dotnet clean
+    - name: build
+      run: dotnet build
+    - name: Set secret
+      shell: bash
+      env:
+        ELEPHANTSQL_CONNECTION_STRING: ${{ secrets.ELEPHANTSQL_CONNECTION_STRING }}
+      run: dotnet user-secrets set "ConnectionStrings:Default" "$ELEPHANTSQL_CONNECTION_STRING"
+    - name: Test
+      run: dotnet test --verbosity normal
