@@ -30,7 +30,7 @@ public class PersonController : ControllerBase
         List<MyPerson> persons = await _service.GetPersons(cancellationToken);
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(Get), nameof(PersonController));
-        _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds", 
+        _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
             nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
         return persons;
     }
