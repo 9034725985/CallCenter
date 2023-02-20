@@ -15,7 +15,13 @@ public class PersonDataTests
     public async void GetPersons_ShouldReturn()
     {
         // Arrange
-        string _connectionString = Configuration["ConnectionStrings:Default"];
+        string? _connectionString = Configuration["ConnectionStrings:Default"];
+        if (string.IsNullOrWhiteSpace(_connectionString))
+        {
+            // fail fast because we have no connection string
+            true.Should().BeFalse();
+            return;
+        }
         Mock<ILogger<PersonData>> mock = new();
         ILogger<PersonData> logger = mock.Object;
         PersonData personData = new(_connectionString, logger);
