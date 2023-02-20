@@ -25,7 +25,7 @@ public class PersonDataTests
         Mock<ILogger<PersonData>> mock = new();
         ILogger<PersonData> logger = mock.Object;
         PersonData personData = new(_connectionString, logger);
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        CancellationTokenSource cancellationTokenSource = new();
 
         //Act
         IEnumerable<MyPerson> result = await personData.GetPersons(cancellationTokenSource.Token);
