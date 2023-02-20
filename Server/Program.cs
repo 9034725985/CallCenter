@@ -2,6 +2,7 @@ using CallCenter.Server.Data;
 using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddTransient(service => new PersonDataService(
     new PersonData(
         service.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
         service.GetRequiredService<ILogger<PersonData>>())));
+builder.Host.UseSerilog();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
