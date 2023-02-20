@@ -30,7 +30,7 @@ else
     {
         try
         {
-            await Http.GetAsync("https://localhost:7109/person");
+            await Http.GetAsync("person");
             persons = await Http.GetFromJsonAsync<MyPerson[]>("Person");
         }
         catch (AccessTokenNotAvailableException exception)
