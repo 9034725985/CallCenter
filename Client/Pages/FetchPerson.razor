@@ -17,9 +17,35 @@
 }
 else
 {
-    @foreach (MyPerson person in persons)
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Legal Name</th>
+                <th>Preferred Name</th>
+                <th>Alias</th>
+                <th>External ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var person in persons)
+            {
+                <tr>
+                    <td>@person.Id</td>
+                    <td>@person.Title</td>
+                    <td>@person.LegalName</td>
+                    <td>@person.PreferredName</td>
+                    <td>@person.Alias</td>
+                    <td>@person.ExternalId</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (@persons.First().Stopwatch != null)
     {
-        <div>@person.PreferredName</div>
+        <pre>Results fetched in about @persons.First().Stopwatch?.ElapsedMilliseconds milliseconds or @persons.First().Stopwatch?.ElapsedTicks ticks.</pre>
     }
 }
 
