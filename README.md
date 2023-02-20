@@ -54,7 +54,7 @@ cd ~/src/dotnet/CallCenter/Server;
 time rm -r ~/src/dotnet/CallCenter/Server/bin/;
 time dotnet publish --configuration Release --os linux --self-contained true --verbosity detailed;
 time cp ~/src/dotnet/callcenterappconfig.json ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/appsettings.json;
-cd /home/kushal/src/dotnet/CallCenter/Server/bin/Release/net7.0/ && ./CallCenter.Server --urls "https://0.0.0.0:7109;http://0.0.0.0:5286";
+cd /home/kushal/src/dotnet/CallCenter/Server/bin/Release/net7.0/linux-x64/publish/ && ./CallCenter.Server --urls "https://0.0.0.0:7109;http://0.0.0.0:5286";
 ```
 
 Here is my `dotnet --info` on the fedora machine 
@@ -142,4 +142,4 @@ Description  : .NET is a fast, lightweight and modular platform for creating
 
 
 
-cd ~/src/dotnet/CallCenter; git remote update && git reset --hard @{u}; time git pull; time dotnet build; cd ~/src/dotnet/CallCenter/Server; time rm -r ~/src/dotnet/CallCenter/Server/bin/; time dotnet publish --configuration Release --os linux --self-contained true --verbosity detailed; time cp ~/src/dotnet/callcenterappconfig.json ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/appsettings.json; cd /home/kushal/src/dotnet/CallCenter/Server/bin/Release/net7.0/ && ./CallCenter.Server --urls "https://0.0.0.0:7109;http://0.0.0.0:5286";
+cd ~/src/dotnet/CallCenter; git remote update && git reset --hard @{u}; time git pull; time dotnet build; cd ~/src/dotnet/CallCenter/Server; time rm -r ~/src/dotnet/CallCenter/Server/bin/; time dotnet publish --configuration Release --os linux --self-contained true --verbosity detailed; time cp ~/src/dotnet/callcenterappconfig.json ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/appsettings.json; cd /home/kushal/src/dotnet/CallCenter/Server/bin/Release/net7.0/linux-x64/publish/ && ./CallCenter.Server --urls "https://0.0.0.0:7109;http://0.0.0.0:5286";
