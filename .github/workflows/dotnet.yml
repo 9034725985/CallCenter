@@ -21,5 +21,10 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Set secret
+      shell: bash
+      env:
+        ELEPHANTSQL_CONNECTION_STRING: ${{ secrets.ELEPHANTSQL_CONNECTION_STRING }}
+      run: dotnet user-secrets set "ConnectionStrings:Default" "$ELEPHANTSQL_CONNECTION_STRING"
     - name: Test
       run: dotnet test --no-build --verbosity normal
