@@ -23,7 +23,10 @@ builder.Services.AddTransient(service => new PersonDataService(
     new PersonData(
         service.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
         service.GetRequiredService<ILogger<PersonData>>())));
-builder.Host.UseSerilog();
+builder.Host.UseSerilog((hostContext, services, configuration) =>
+{
+    configuration.ReadFrom.Configuration(hostContext.Configuration);
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
