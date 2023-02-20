@@ -46,13 +46,15 @@ then, you can copy this file into your publish folder to overwrite what you got 
 Here is some sample script: 
 
 ```bash
-cd ~/src/dotnet/CallCenter/Server; 
+cd ~/src/dotnet/CallCenter;
 git remote update && git reset --hard @{u}; 
 time git pull; 
 time dotnet build; 
+cd ~/src/dotnet/CallCenter/Server; 
+time rm -r ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/publish; 
 time dotnet publish --configuration Release --os linux --self-contained true --verbosity detailed; 
-time cp ~/callcenterappconfig.json ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/publish/appsettings.json; 
-cd ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/publish/ && ./CallCenter.Server --urls "https://0.0.0.0:7109;http://0.0.0.0:5286"
+time cp ~/src/dotnet/callcenterappconfig.json ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/publish/appsettings.json; 
+cd /home/kushal/src/dotnet/CallCenter/Server/bin/Release/net7.0/publish/ && ./CallCenter.Server --urls "https://0.0.0.0:7109;http://0.0.0.0:5286";
 ```
 
 Here is my `dotnet --info` on the fedora machine 
