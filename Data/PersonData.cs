@@ -36,4 +36,20 @@ public class PersonData : IPersonData
         _logger.LogDebug("{methodName} returned {result}", nameof(GetPersons), JsonConvert.SerializeObject(persons));
         return persons;
     }
+
+    public async Task<int> UpdateMyPerson(MyPerson person, CancellationToken cancellationToken)
+    {
+        string updateQuery = "update myperson set modifiedby = @modifiedby, modifieddate = @modifieddate where id = @id";
+        using NpgsqlConnection connection = new(_connectionString);
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        int response = await connection.ExecuteAsync(updateQuery, new
+        {
+            modifiedby = person.ModifiedBy,
+            modifieddate = person.ModifiedDate,
+            id = person.Id
+        });
+        stopwatch.Stop();
+        _logger.LogDebug("{methodName} returned {response} for input of {input}", nameof(UpdateMyPerson), response, JsonConvert.SerializeObject(person));
+        return response;
+    }
 }

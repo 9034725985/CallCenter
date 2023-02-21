@@ -47,4 +47,37 @@ public class PersonDataTests
         expected.Where(x => x.Id == 4).First().ModifiedDate.Should().BeAfter(DateTime.MinValue);
         expected.Where(x => x.Id == 4).First().ModifiedDate.Should().BeBefore(DateTime.UtcNow);
     }
+
+    [Fact]
+    public async void UpdatePersons_ShouldReturn()
+    {
+        // Arrange
+        string? _connectionString = Configuration["ConnectionStrings:Default"];
+        if (string.IsNullOrWhiteSpace(_connectionString))
+        {
+            // fail fast because we have no connection string
+            true.Should().BeFalse();
+            return;
+        }
+        Mock<ILogger<PersonData>> mock = new();
+        ILogger<PersonData> logger = mock.Object;
+        PersonData personData = new(_connectionString, logger);
+        CancellationTokenSource cancellationTokenSource = new();
+        IEnumerable<MyPerson> result = await personData.GetPersons(cancellationTokenSource.Token);
+        List<MyPerson> actual = result.ToList<MyPerson>();
+        if (!actual.Any())
+        {
+            true.Should().BeFalse();
+            return;
+        }
+        MyPerson person = actual[0];
+        person.ModifiedBy = 1;
+        person.ModifiedDate = DateTime.UtcNow;
+
+        // Act 
+        int response = await personData.UpdateMyPerson(person, cancellationTokenSource.Token);
+
+        // Assert
+        response.Should().Be(1);
+    }
 }
