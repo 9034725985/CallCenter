@@ -26,6 +26,7 @@ else
                 <th>Preferred Name</th>
                 <th>Alias</th>
                 <th>External ID</th>
+                <th>Modified at (UTC)</th>
             </tr>
         </thead>
         <tbody>
@@ -38,26 +39,52 @@ else
                     <td>@person.PreferredName</td>
                     <td>@person.Alias</td>
                     <td>@person.ExternalId</td>
+                    <td>@person.ModifiedDate</td>
                 </tr>
             }
         </tbody>
     </table>
 
-    @if (@persons.First().Stopwatch != null)
+    if (@persons.First().Stopwatch != null)
     {
         <pre>Results fetched in about @persons.First().Stopwatch?.ElapsedMilliseconds milliseconds or @persons.First().Stopwatch?.ElapsedTicks ticks.</pre>
     }
+
+    <button @onclick="UpdateMyPerson">Update now</button>
 }
 
 @code {
     private MyPerson[]? persons;
+    private List<MyInteger> myIntegers = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            await Http.GetAsync("person");
             persons = await Http.GetFromJsonAsync<MyPerson[]>("Person");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    protected async Task UpdateMyPerson()
+    {
+        try
+        {
+            persons = await Http.GetFromJsonAsync<MyPerson[]>("Person");
+            if (persons?.Count() > 0)
+            {
+                myIntegers = new();
+                foreach (MyPerson person in persons)
+                {
+                    person.ModifiedBy = person.Id;
+                    person.ModifiedDate = DateTime.UtcNow;
+                    var response = await Http.PutAsJsonAsync<MyPerson>("Person", person);
+                }
+                persons = await Http.GetFromJsonAsync<MyPerson[]>("Person");
+            }
         }
         catch (AccessTokenNotAvailableException exception)
         {

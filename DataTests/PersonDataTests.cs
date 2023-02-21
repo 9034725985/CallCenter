@@ -1,3 +1,6 @@
+using CallCenter.Data;
+using CallCenter.Data.Model;
+
 namespace DataTests;
 public class PersonDataTests
 {
@@ -22,9 +25,9 @@ public class PersonDataTests
             true.Should().BeFalse();
             return;
         }
-        Mock<ILogger<PersonData>> mock = new();
-        ILogger<PersonData> logger = mock.Object;
-        PersonData personData = new(_connectionString, logger);
+        Mock<ILogger<PersonDataAccess>> mock = new();
+        ILogger<PersonDataAccess> logger = mock.Object;
+        PersonDataAccess personData = new(_connectionString, logger);
         CancellationTokenSource cancellationTokenSource = new();
 
         //Act
@@ -59,9 +62,9 @@ public class PersonDataTests
             true.Should().BeFalse();
             return;
         }
-        Mock<ILogger<PersonData>> mock = new();
-        ILogger<PersonData> logger = mock.Object;
-        PersonData personData = new(_connectionString, logger);
+        Mock<ILogger<PersonDataAccess>> mock = new();
+        ILogger<PersonDataAccess> logger = mock.Object;
+        PersonDataAccess personData = new(_connectionString, logger);
         CancellationTokenSource cancellationTokenSource = new();
         IEnumerable<MyPerson> result = await personData.GetPersons(cancellationTokenSource.Token);
         List<MyPerson> actual = result.ToList<MyPerson>();
@@ -75,9 +78,9 @@ public class PersonDataTests
         person.ModifiedDate = DateTime.UtcNow;
 
         // Act 
-        int response = await personData.UpdateMyPerson(person, cancellationTokenSource.Token);
+        MyInteger response = await personData.UpdateMyPerson(person, cancellationTokenSource.Token);
 
         // Assert
-        response.Should().Be(1);
+        response.Value.Should().Be(1);
     }
 }

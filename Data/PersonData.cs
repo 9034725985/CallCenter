@@ -1,14 +1,14 @@
-﻿using System.Diagnostics;
+﻿using CallCenter.Data.Model;
 
-namespace Data;
+namespace CallCenter.Data;
 
-public class PersonData : IPersonData
+public class PersonDataAccess : IPersonDataAccess
 {
     //private readonly string _connectionString = "Host=hansken.db.elephantsql.com;Database=xrbmpoui;User Id=xrbmpoui;Password=i38x7v1O3aNteoNxteJNB5thtPfKqqxn;";
     private readonly string _connectionString;
-    private readonly ILogger<PersonData> _logger;
+    private readonly ILogger<PersonDataAccess> _logger;
 
-    public PersonData(string connectionString, ILogger<PersonData> logger)
+    public PersonDataAccess(string connectionString, ILogger<PersonDataAccess> logger)
     {
         _connectionString = connectionString;
         _logger = logger;
@@ -37,7 +37,7 @@ public class PersonData : IPersonData
         return persons;
     }
 
-    public async Task<int> UpdateMyPerson(MyPerson person, CancellationToken cancellationToken)
+    public async Task<MyInteger> UpdateMyPerson(MyPerson person, CancellationToken cancellationToken)
     {
         string updateQuery = "update myperson set modifiedby = @modifiedby, modifieddate = @modifieddate where id = @id";
         using NpgsqlConnection connection = new(_connectionString);
@@ -50,6 +50,17 @@ public class PersonData : IPersonData
         });
         stopwatch.Stop();
         _logger.LogDebug("{methodName} returned {response} for input of {input}", nameof(UpdateMyPerson), response, JsonConvert.SerializeObject(person));
-        return response;
+        MyInteger myInteger = new()
+        {
+            Value = response,
+            Id = person.Id,
+            ExternalId = person.ExternalId,
+            CreatedBy = person.CreatedBy,
+            CreatedDate = person.CreatedDate,
+            ModifiedBy = person.ModifiedBy,
+            ModifiedDate = person.ModifiedDate,
+            Stopwatch = stopwatch
+        };
+        return myInteger;
     }
 }

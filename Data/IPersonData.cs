@@ -1,7 +1,9 @@
-﻿namespace Data;
+﻿using CallCenter.Data.Model;
 
-public interface IPersonData
+namespace CallCenter.Data;
+
+public interface IPersonDataAccess
 {
     Task<IEnumerable<MyPerson>> GetPersons(CancellationToken cancellationToken);
-    Task<int> UpdateMyPerson(MyPerson person, CancellationToken cancellationToken);
+    Task<MyInteger> UpdateMyPerson(MyPerson person, CancellationToken cancellationToken);
 }

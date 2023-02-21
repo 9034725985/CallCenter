@@ -1,5 +1,5 @@
+using CallCenter.Data;
 using CallCenter.Server.Data;
-using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Serilog;
@@ -13,16 +13,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddTransient<IPersonData, PersonData>((services) =>
+builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>((services) =>
 {
-    return new PersonData(
+    return new PersonDataAccess(
         services.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
-        services.GetRequiredService<ILogger<PersonData>>());
+        services.GetRequiredService<ILogger<PersonDataAccess>>());
 });
 builder.Services.AddTransient(service => new PersonDataService(
-    new PersonData(
+    new PersonDataAccess(
         service.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
-        service.GetRequiredService<ILogger<PersonData>>())));
+        service.GetRequiredService<ILogger<PersonDataAccess>>())));
 builder.Host.UseSerilog((hostContext, services, configuration) =>
 {
     configuration.ReadFrom.Configuration(hostContext.Configuration);

@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace Data.Model;
+﻿namespace CallCenter.Data.Model;
 
 public class MyBaseClass
 {

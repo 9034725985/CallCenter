@@ -1,4 +1,4 @@
-﻿namespace Data.Model;
+﻿namespace CallCenter.Data.Model;
 public class MyPerson : MyBaseClass
 {
     public string Title { get; set; } = "";
