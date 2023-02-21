@@ -77,12 +77,14 @@ else
             if (persons?.Count() > 0)
             {
                 myIntegers = new();
-                foreach (MyPerson person in persons)
-                {
-                    person.ModifiedBy = person.Id;
-                    person.ModifiedDate = DateTime.UtcNow;
-                    var response = await Http.PutAsJsonAsync<MyPerson>("Person", person);
-                }
+                //foreach (MyPerson person in persons)
+                //{
+                //    person.ModifiedBy = person.Id;
+                //    person.ModifiedDate = DateTime.UtcNow;
+                //    var response = await Http.PutAsJsonAsync<MyPerson>("Person", person);
+                //}
+                var tasks = persons.ToList().Select(person => Http.PutAsJsonAsync<MyPerson>("Person", person));
+                var updateResponse = await Task.WhenAll(tasks);
                 persons = await Http.GetFromJsonAsync<MyPerson[]>("Person");
             }
         }
