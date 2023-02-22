@@ -11,12 +11,8 @@
 <h1>Get Persons</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-
-@if (persons == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
+<pre>@strPersons</pre>
+@*@if (persons.Any())
 {
     <table class="table">
         <thead>
@@ -46,15 +42,14 @@ else
         </tbody>
     </table>
 
-    if (@persons.First().Stopwatch != null)
-    {
-        <pre>Results fetched in about @persons.First().Stopwatch?.ElapsedMilliseconds milliseconds or @persons.First().Stopwatch?.ElapsedTicks ticks.</pre>
-    }
-
-    <button @onclick="UpdateMyPerson">Update now</button>
-
-    <pre>@strPersons</pre>
+    
 }
+else
+{
+    <p><em>Loading...</em></p>
+}*@
+<button @onclick="UpdateMyPerson">Update now</button>
+
 
 @code {
     private List<MyPerson> persons = new();
@@ -88,7 +83,7 @@ else
             string strPrivatePersons = JsonConvert.SerializeObject(persons, Formatting.Indented);
             Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(UpdateMyPerson)}");
             strPersons = strPrivatePersons;
-            if (persons?.Count() > 0)
+            if (persons.Any())
             {
                 myIntegers = new();
                 foreach (MyPerson person in persons)
@@ -112,9 +107,10 @@ else
     {
         string? strPrivatePersons = await Http.GetStringAsync("Person");
         Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(GetAllPersons)}");
-        if (!string.IsNullOrWhiteSpace(strPersons))
+        if (!string.IsNullOrWhiteSpace(strPrivatePersons))
         {
-            List<MyPerson>? myPersons = JsonConvert.DeserializeObject<List<MyPerson>>(strPersons);
+            strPersons = strPrivatePersons;
+            List<MyPerson>? myPersons = JsonConvert.DeserializeObject<List<MyPerson>>(strPrivatePersons);
             if (myPersons != null && myPersons.Any())
             {
                 return myPersons;
