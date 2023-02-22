@@ -11,8 +11,8 @@
 <h1>Get Persons</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
-<pre>@strPersons</pre>
-@*@if (persons.Any())
+
+@if (persons.Any())
 {
     <table class="table">
         <thead>
@@ -47,7 +47,7 @@
 else
 {
     <p><em>Loading...</em></p>
-}*@
+}
 <button @onclick="UpdateMyPerson">Update now</button>
 
 
@@ -61,9 +61,6 @@ else
         try
         {
             persons = await GetAllPersons();
-            string strPrivatePersons = JsonConvert.SerializeObject(persons, Formatting.Indented);
-            Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(OnInitializedAsync)}");
-            strPersons = strPrivatePersons;
         }
         catch (AccessTokenNotAvailableException exception)
         {
@@ -80,9 +77,6 @@ else
         try
         {
             persons = await GetAllPersons();
-            string strPrivatePersons = JsonConvert.SerializeObject(persons, Formatting.Indented);
-            Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(UpdateMyPerson)}");
-            strPersons = strPrivatePersons;
             if (persons.Any())
             {
                 myIntegers = new();
