@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Data.Model
+@using Newtonsoft.Json;
 @attribute [Authorize]
 @inject HttpClient Http
 
@@ -51,21 +52,31 @@ else
     }
 
     <button @onclick="UpdateMyPerson">Update now</button>
+
+    <pre>@strPersons</pre>
 }
 
 @code {
-    private MyPerson[]? persons;
+    private List<MyPerson> persons = new();
     private List<MyInteger> myIntegers = new();
+    private string strPersons = "";
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            persons = await Http.GetFromJsonAsync<MyPerson[]>("Person");
+            persons = await GetAllPersons();
+            string strPrivatePersons = JsonConvert.SerializeObject(persons, Formatting.Indented);
+            Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(OnInitializedAsync)}");
+            strPersons = strPrivatePersons;
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
     }
 
@@ -73,7 +84,10 @@ else
     {
         try
         {
-            persons = await Http.GetFromJsonAsync<MyPerson[]>("Person");
+            persons = await GetAllPersons();
+            string strPrivatePersons = JsonConvert.SerializeObject(persons, Formatting.Indented);
+            Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(UpdateMyPerson)}");
+            strPersons = strPrivatePersons;
             if (persons?.Count() > 0)
             {
                 myIntegers = new();
@@ -85,12 +99,26 @@ else
                 }
                 var tasks = persons.ToList().Select(person => Http.PutAsJsonAsync<MyPerson>("Person", person));
                 var updateResponse = await Task.WhenAll(tasks);
-                persons = await Http.GetFromJsonAsync<MyPerson[]>("Person");
+                persons = await GetAllPersons();
             }
         }
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
         }
+    }
+
+    protected async Task<List<MyPerson>> GetAllPersons()
+    {
+        string? strPersons = await Http.GetStringAsync("Person");
+        if (!string.IsNullOrWhiteSpace(strPersons))
+        {
+            List<MyPerson>? myPersons = JsonConvert.DeserializeObject<List<MyPerson>>(strPersons);
+            if (myPersons != null && myPersons.Any())
+            {
+                return myPersons;
+            }
+        }
+        return new();
     }
 }
