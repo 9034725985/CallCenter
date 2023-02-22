@@ -110,7 +110,8 @@ else
 
     protected async Task<List<MyPerson>> GetAllPersons()
     {
-        string? strPersons = await Http.GetStringAsync("Person");
+        string? strPrivatePersons = await Http.GetStringAsync("Person");
+        Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(GetAllPersons)}");
         if (!string.IsNullOrWhiteSpace(strPersons))
         {
             List<MyPerson>? myPersons = JsonConvert.DeserializeObject<List<MyPerson>>(strPersons);
