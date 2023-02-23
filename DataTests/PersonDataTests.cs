@@ -4,11 +4,11 @@ using CallCenter.Data.Model;
 namespace DataTests;
 public class PersonDataTests
 {
-    IConfiguration Configuration { get; set; }
+    private IConfiguration Configuration { get; set; }
 
     public PersonDataTests()
     {
-        var builder = new ConfigurationBuilder()
+        IConfigurationBuilder builder = new ConfigurationBuilder()
             .AddUserSecrets<PersonDataTests>();
 
         Configuration = builder.Build();
@@ -22,7 +22,7 @@ public class PersonDataTests
         if (string.IsNullOrWhiteSpace(_connectionString))
         {
             // fail fast because we have no connection string
-            true.Should().BeFalse();
+            _ = true.Should().BeFalse();
             return;
         }
         Mock<ILogger<PersonDataAccess>> mock = new();
@@ -35,20 +35,20 @@ public class PersonDataTests
         List<MyPerson> expected = result.ToList<MyPerson>();
 
         // Assert
-        expected.Should().NotBeNull();
-        expected.Count.Should().Be(4); // we know this because we wrote the script in create database
-        expected.Where(x => x.Id == 4).Count().Should().Be(1);
-        expected.Where(x => x.Id == 4).First().ExternalId.Should().NotBeEmpty();
-        expected.Where(x => x.Id == 4).First().Title.Should().Be("Mr");
-        expected.Where(x => x.Id == 4).First().LegalName.Should().Be("Shawn Corey Carter");
-        expected.Where(x => x.Id == 4).First().PreferredName.Should().Be("Jay Z");
-        expected.Where(x => x.Id == 4).First().Alias.Should().Be("v-shawncarter");
-        expected.Where(x => x.Id == 4).First().CreatedBy.Should().Be(1);
-        expected.Where(x => x.Id == 4).First().CreatedDate.Should().BeAfter(DateTime.MinValue);
-        expected.Where(x => x.Id == 4).First().CreatedDate.Should().BeBefore(DateTime.UtcNow);
-        expected.Where(x => x.Id == 4).First().ModifiedBy.Should().Be(1);
-        expected.Where(x => x.Id == 4).First().ModifiedDate.Should().BeAfter(DateTime.MinValue);
-        expected.Where(x => x.Id == 4).First().ModifiedDate.Should().BeBefore(DateTime.UtcNow);
+        _ = expected.Should().NotBeNull();
+        _ = expected.Count.Should().Be(4); // we know this because we wrote the script in create database
+        _ = expected.Where(x => x.Id == 4).Count().Should().Be(1);
+        _ = expected.Where(x => x.Id == 4).First().ExternalId.Should().NotBeEmpty();
+        _ = expected.Where(x => x.Id == 4).First().Title.Should().Be("Mr");
+        _ = expected.Where(x => x.Id == 4).First().LegalName.Should().Be("Shawn Corey Carter");
+        _ = expected.Where(x => x.Id == 4).First().PreferredName.Should().Be("Jay Z");
+        _ = expected.Where(x => x.Id == 4).First().Alias.Should().Be("v-shawncarter");
+        _ = expected.Where(x => x.Id == 4).First().CreatedBy.Should().Be(1);
+        _ = expected.Where(x => x.Id == 4).First().CreatedDate.Should().BeAfter(DateTime.MinValue);
+        _ = expected.Where(x => x.Id == 4).First().CreatedDate.Should().BeBefore(DateTime.UtcNow);
+        _ = expected.Where(x => x.Id == 4).First().ModifiedBy.Should().Be(1);
+        _ = expected.Where(x => x.Id == 4).First().ModifiedDate.Should().BeAfter(DateTime.MinValue);
+        _ = expected.Where(x => x.Id == 4).First().ModifiedDate.Should().BeBefore(DateTime.UtcNow);
     }
 
     [Fact]
@@ -59,7 +59,7 @@ public class PersonDataTests
         if (string.IsNullOrWhiteSpace(_connectionString))
         {
             // fail fast because we have no connection string
-            true.Should().BeFalse();
+            _ = true.Should().BeFalse();
             return;
         }
         Mock<ILogger<PersonDataAccess>> mock = new();
@@ -70,7 +70,7 @@ public class PersonDataTests
         List<MyPerson> actual = result.ToList<MyPerson>();
         if (!actual.Any())
         {
-            true.Should().BeFalse();
+            _ = true.Should().BeFalse();
             return;
         }
         MyPerson person = actual[0];
@@ -81,6 +81,6 @@ public class PersonDataTests
         MyInteger response = await personData.UpdateMyPerson(person, cancellationTokenSource.Token);
 
         // Assert
-        response.Value.Should().Be(1);
+        _ = response.Value.Should().Be(1);
     }
 }
