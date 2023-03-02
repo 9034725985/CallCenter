@@ -62,33 +62,33 @@ Here is my `dotnet --info` on the fedora machine
 ```bash
 $ dotnet --info
 .NET SDK:
- Version:   7.0.102
- Commit:    4bbdd14480
+ Version:   7.0.103
+ Commit:    276c71d299
 
 Runtime Environment:
  OS Name:     fedora
- OS Version:  36
+ OS Version:  37
  OS Platform: Linux
- RID:         fedora.36-x64
- Base Path:   /usr/lib64/dotnet/sdk/7.0.102/
+ RID:         fedora.37-x64
+ Base Path:   /usr/lib64/dotnet/sdk/7.0.103/
 
 Host:
-  Version:      7.0.2
+  Version:      7.0.3
   Architecture: x64
-  Commit:       d037e070eb
+  Commit:       0a2bda10e8
 
 .NET SDKs installed:
   3.1.424 [/usr/lib64/dotnet/sdk]
-  6.0.113 [/usr/lib64/dotnet/sdk]
-  7.0.102 [/usr/lib64/dotnet/sdk]
+  6.0.114 [/usr/lib64/dotnet/sdk]
+  7.0.103 [/usr/lib64/dotnet/sdk]
 
 .NET runtimes installed:
   Microsoft.AspNetCore.App 3.1.30 [/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App]
-  Microsoft.AspNetCore.App 6.0.13 [/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App]
-  Microsoft.AspNetCore.App 7.0.2 [/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 6.0.14 [/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App]
+  Microsoft.AspNetCore.App 7.0.3 [/usr/lib64/dotnet/shared/Microsoft.AspNetCore.App]
   Microsoft.NETCore.App 3.1.30 [/usr/lib64/dotnet/shared/Microsoft.NETCore.App]
-  Microsoft.NETCore.App 6.0.13 [/usr/lib64/dotnet/shared/Microsoft.NETCore.App]
-  Microsoft.NETCore.App 7.0.2 [/usr/lib64/dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 6.0.14 [/usr/lib64/dotnet/shared/Microsoft.NETCore.App]
+  Microsoft.NETCore.App 7.0.3 [/usr/lib64/dotnet/shared/Microsoft.NETCore.App]
 
 Other architectures found:
   None
