@@ -48,13 +48,14 @@ else
 {
     <p><em>Loading...</em></p>
 }
-<button @onclick="UpdateMyPerson">Update now</button>
+<button @onclick="UpdateMyPerson" disabled=@isUpdating>Update now</button>
 
 
 @code {
     private List<MyPerson> persons = new();
     private List<MyInteger> myIntegers = new();
     private string strPersons = "";
+    private bool isUpdating = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -74,6 +75,7 @@ else
 
     protected async Task UpdateMyPerson()
     {
+        isUpdating = true;
         try
         {
             persons = await GetAllPersons();
@@ -94,6 +96,11 @@ else
         catch (AccessTokenNotAvailableException exception)
         {
             exception.Redirect();
+        }
+        finally
+        {
+            isUpdating = false;
+            Console.WriteLine("finally");
         }
     }
 
