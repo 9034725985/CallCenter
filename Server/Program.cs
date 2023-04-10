@@ -1,6 +1,9 @@
 using CallCenter.Data;
+using CallCenter.Server;
 using CallCenter.Server.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Identity.Web;
 using Serilog;
 
@@ -13,12 +16,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>((services) =>
-{
-    return new PersonDataAccess(
-        services.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
-        services.GetRequiredService<ILogger<PersonDataAccess>>());
-});
+//builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>((services) =>
+//{
+//    return new PersonDataAccess(
+//        services.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
+//        services.GetRequiredService<ILogger<PersonDataAccess>>());
+//});
+builder.Services.AddDbContext<CallCenterDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("default")).ReplaceService<ISqlGenerationHelper, NpgsqlSqlGenerationLowercasingHelper>());
 builder.Services.AddTransient(service => new PersonDataService(
     new PersonDataAccess(
         service.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,

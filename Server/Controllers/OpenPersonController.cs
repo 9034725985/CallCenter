@@ -1,31 +1,25 @@
 using CallCenter.Data;
 using CallCenter.Data.Model;
-using CallCenter.Server.Data;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace CallCenter.Server.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("[controller]")]
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-public class PersonController : ControllerBase
+public class OpenPersonController : ControllerBase
 {
-    private readonly CallCenterDbContext _context;
     private readonly ILogger<PersonController> _logger;
-    private readonly PersonDataService _service;
+    private readonly CallCenterDbContext _context;
 
-    public PersonController(CallCenterDbContext context, ILogger<PersonController> logger, PersonDataService service)
+    public OpenPersonController(CallCenterDbContext context, ILogger<PersonController> logger)
     {
         _context = context;
         _logger = logger;
-        _service = service;
     }
 
     [HttpGet]
@@ -44,13 +38,11 @@ public class PersonController : ControllerBase
     [HttpPut]
     public async Task<MyInteger> Put(MyPerson person, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Begin {methodname} in {classname}", nameof(Put), nameof(PersonController));
+        await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(Put), nameof(PersonController)), cancellationToken);
         string strMyPerson = JsonConvert.SerializeObject(person);
         _logger.LogInformation("Input is {name} with stringified value {value}", nameof(person), strMyPerson);
         Stopwatch stopwatch = Stopwatch.StartNew();
-        var databasePerson = await _context.Persons.FirstOrDefaultAsync(x => x.Id == person.Id);
-        if (databasePerson != null) { databasePerson.ModifiedDate = person.ModifiedDate; }
-        await _context.SaveChangesAsync(cancellationToken);
+        bool exists = _context.Persons.Any(x => x.Id == person.Id);
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(Put), nameof(PersonController));
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",

@@ -11,5 +11,4 @@ public class MyBaseClass
     public DateTime ModifiedDate { get; set; }
     public string CreatedByName { get; set; } = "";
     public string ModifiedByName { get; set; } = "";
-    public Stopwatch? Stopwatch { get; set; }
 }
