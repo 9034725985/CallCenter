@@ -22,7 +22,7 @@ builder.Services.AddServerSideBlazor();
 //        services.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
 //        services.GetRequiredService<ILogger<PersonDataAccess>>());
 //});
-builder.Services.AddDbContext<CallCenterDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("default")).ReplaceService<ISqlGenerationHelper, NpgsqlSqlGenerationLowercasingHelper>());
+builder.Services.AddDbContext<CallCenterDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("default")));
 builder.Services.AddTransient(service => new PersonDataService(
     new PersonDataAccess(
         service.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
