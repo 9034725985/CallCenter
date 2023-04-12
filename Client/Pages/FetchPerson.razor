@@ -13,37 +13,24 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-<button @onclick="UpdateMyPerson" disabled=@isUpdating class="form-control w-50">Update now</button>
+@*<button @onclick="UpdateMyPerson" disabled=@isUpdating class="form-control w-50">Update now</button>*@
+<RadzenButton Click="@UpdateMyPerson" Disabled=@isUpdating Text="Update Now"></RadzenButton>
 
 @if (!isUpdating && persons.Any())
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Legal Name</th>
-                <th>Preferred Name</th>
-                <th>Alias</th>
-                <th>External ID</th>
-                <th>Modified at (UTC)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var person in persons)
-            {
-                <tr>
-                    <td>@person.Id</td>
-                    <td>@person.Title</td>
-                    <td>@person.LegalName</td>
-                    <td>@person.PreferredName</td>
-                    <td>@person.Alias</td>
-                    <td>@person.ExternalId</td>
-                    <td>@person.ModifiedDate</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@persons" TItem="MyPerson" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+            <RadzenDataGridColumn TItem="MyPerson" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="MyPerson" Property="LegalName" Title="Legal Name" Width="160px" />
+            <RadzenDataGridColumn TItem="MyPerson" Property="Title" Title="Job Title" Width="200px" />
+            <RadzenDataGridColumn TItem="MyPerson" Property="PreferredName" Title="PreferredName" Width="120px" />
+            <RadzenDataGridColumn TItem="MyPerson" Property="Alias" Title="Alias" Width="160px" />
+            <RadzenDataGridColumn TItem="MyPerson" Property="ExternalId" Title="External ID" Width="160px" />
+            <RadzenDataGridColumn TItem="MyPerson" Property="CreatedDate" Title="Created Date" Width="200px" />
+            <RadzenDataGridColumn TItem="MyPerson" Property="ModifiedDate" Title="Modified Date" Width="160px" />
+        </Columns>
+    </RadzenDataGrid>
 }
 else
 {
@@ -153,7 +140,8 @@ else
         if (result?.IsSuccessStatusCode == true)
         {
             Console.WriteLine("success");
-        } else
+        }
+        else
         {
             Console.WriteLine("failure");
         }
