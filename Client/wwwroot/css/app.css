@@ -100,3 +100,14 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+.authorizing-progress-text {
+    position: absolute;
+    text-align: center;
+    font-weight: bold;
+    inset: calc(20vh + 3.25rem) 0 auto 0.2rem;
+}
+
+    .authorizing-progress-text:after {
+        content: var(--blazor-load-percentage-text, "Authorizing");
+    }

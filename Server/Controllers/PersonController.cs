@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace CallCenter.Server.Controllers;

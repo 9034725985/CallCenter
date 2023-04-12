@@ -2,6 +2,15 @@
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <div style="position:absolute; top:30vh; width:100%; text-align:center">
+                        <h1>Call Center</h1>
+                        <div style="display:flex; gap:10px; justify-content:center; align-items:center">
+                            <div class="spinner-grow" role="status"></div>
+                            <div class="authorizing-progress-text"></div>
+                        </div>
+                    </div>
+                </Authorizing>
                 <NotAuthorized>
                     @if (context.User.Identity?.IsAuthenticated != true)
                     {
