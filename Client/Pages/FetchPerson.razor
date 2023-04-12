@@ -88,8 +88,9 @@ else
                     person.ModifiedDate = DateTime.UtcNow;
                     //var response = await Http.PutAsJsonAsync<MyPerson>("Person", person);
                 }
-                var tasks = persons.ToList().Select(person => Http.PutAsJsonAsync<MyPerson>("Person", person));
-                var updateResponse = await Task.WhenAll(tasks);
+                //var tasks = persons.ToList().Select(person => Http.PutAsJsonAsync<MyPerson>("Person", person));
+                //var updateResponse = await Task.WhenAll(tasks);
+                _ = await UpdateAllPersons(persons);
                 persons = await GetAllPersons();
             }
         }
@@ -104,6 +105,22 @@ else
         }
     }
 
+    protected async Task<int> UpdateAllPersons(List<MyPerson> persons)
+    {
+        Console.WriteLine(persons);
+        Console.WriteLine("UpdateAllPersons start");
+        var tasks = await Http.PutAsJsonAsync<List<MyPerson>>("person/persons", persons);
+        Console.WriteLine("UpdateAllPersons complete");
+        if (tasks.IsSuccessStatusCode)
+        {
+            Console.WriteLine("success");
+        } else
+        {
+            Console.WriteLine("failure");
+        }
+        return 0;
+    }
+
     protected async Task<List<MyPerson>> GetAllPersons()
     {
         string? strPrivatePersons = await Http.GetStringAsync("Person");
@@ -114,7 +131,7 @@ else
             List<MyPerson>? myPersons = JsonConvert.DeserializeObject<List<MyPerson>>(strPrivatePersons);
             if (myPersons != null && myPersons.Any())
             {
-                return myPersons;
+                return myPersons.OrderBy(x => x.Id).ToList();
             }
         }
         return new();

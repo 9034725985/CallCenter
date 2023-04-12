@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.Resource;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -53,6 +54,26 @@ public class PersonController : ControllerBase
         await _context.SaveChangesAsync(cancellationToken);
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(Put), nameof(PersonController));
+        _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
+            nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
+        return new();
+    }
+
+    [HttpPut("persons")]
+    public async Task<MyInteger> PutMultiple(List<MyPerson> persons, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Begin {methodname} in {classname}", nameof(PutMultiple), nameof(PersonController));
+        string strMyPerson = JsonConvert.SerializeObject(persons);
+        _logger.LogInformation("Input is {name} with stringified value {value}", nameof(persons), strMyPerson);
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        foreach (var person in persons)
+        {
+            var databasePerson = await _context.Persons.FirstOrDefaultAsync(x => x.Id == person.Id, cancellationToken: cancellationToken);
+            if (databasePerson != null) { databasePerson.ModifiedDate = person.ModifiedDate; }
+        }
+        await _context.SaveChangesAsync(cancellationToken);
+        stopwatch.Stop();
+        _logger.LogInformation("End {methodname} in {classname}", nameof(PutMultiple), nameof(PersonController));
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
             nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
         return new();
