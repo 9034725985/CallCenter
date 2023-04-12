@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using Data.Model
 @using Newtonsoft.Json;
+@using System.Diagnostics;
 @attribute [Authorize]
 @inject HttpClient Http
 
@@ -11,6 +12,8 @@
 <h1>Get Persons ef branch</h1>
 
 <p>This component demonstrates fetching data from the server.</p>
+
+<button @onclick="UpdateMyPerson" disabled=@isUpdating class="form-control w-50">Update now</button>
 
 @if (!isUpdating && persons.Any())
 {
@@ -52,22 +55,30 @@ else
         </div>
     </div>
 }
-<button @onclick="UpdateMyPerson" disabled=@isUpdating>Update now</button>
 
-<aside class="small">
-    <h2>
-        Some fine print
-    </h2>
-    <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac turpis congue, pretium elit id, ornare augue. Ut accumsan, lectus id aliquet fringilla, diam tortor tempus lectus, vitae hendrerit turpis nulla ac velit. Proin imperdiet molestie eros, nec viverra mauris ullamcorper eu. Vivamus sagittis augue vel risus blandit suscipit. Nam commodo suscipit enim. Aliquam interdum, lacus ac egestas elementum, augue lectus accumsan ipsum, eget mattis urna urna sed sapien. Praesent sed convallis quam. Curabitur est sapien, placerat sed lorem malesuada, faucibus placerat massa. Interdum et malesuada fames ac ante ipsum primis in faucibus.</small>
+@if (!isUpdating && updateStopWatch != "")
+{
+    <aside>
+        <small class="text-muted">
+            @updateStopWatch
+        </small>
+    </aside>
 
-    <small class="text-muted">Duis sed vulputate nisl. Quisque dignissim dictum tellus sodales venenatis. In enim nisi, sollicitudin id arcu at, sagittis egestas enim. Maecenas viverra nulla quis arcu consectetur consectetur. Fusce condimentum ac quam sed imperdiet. Aenean ut arcu a risus lacinia tristique in sed lorem. Curabitur in urna ac lorem sollicitudin euismod at quis neque. Nunc mattis vehicula dignissim. Cras eu elementum mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla semper nibh consectetur convallis volutpat. Quisque consequat mi sed est iaculis, vitae ullamcorper orci semper. Mauris aliquam eros nulla, nec lacinia turpis interdum nec. Nunc euismod felis id erat tristique tincidunt. Etiam tempus, mi in cursus sagittis, neque massa vestibulum odio, vitae venenatis neque lorem ac erat. Curabitur quis neque id mauris imperdiet accumsan.</small>
+    <aside class="small">
+        <h2>
+            Some fine print
+        </h2>
+        <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac turpis congue, pretium elit id, ornare augue. Ut accumsan, lectus id aliquet fringilla, diam tortor tempus lectus, vitae hendrerit turpis nulla ac velit. Proin imperdiet molestie eros, nec viverra mauris ullamcorper eu. Vivamus sagittis augue vel risus blandit suscipit. Nam commodo suscipit enim. Aliquam interdum, lacus ac egestas elementum, augue lectus accumsan ipsum, eget mattis urna urna sed sapien. Praesent sed convallis quam. Curabitur est sapien, placerat sed lorem malesuada, faucibus placerat massa. Interdum et malesuada fames ac ante ipsum primis in faucibus.</small>
 
-    <small class="text-muted">Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent id urna auctor, lobortis metus sed, faucibus augue. Suspendisse quam ipsum, sollicitudin sit amet mollis ac, vestibulum in eros. Fusce fringilla mi in ipsum euismod convallis. Nam pulvinar maximus cursus. Sed sit amet condimentum tortor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent consequat sagittis lacus, vel porttitor ex vulputate vel. Integer vitae lobortis tortor, in aliquam lectus.</small>
+        <small class="text-muted">Duis sed vulputate nisl. Quisque dignissim dictum tellus sodales venenatis. In enim nisi, sollicitudin id arcu at, sagittis egestas enim. Maecenas viverra nulla quis arcu consectetur consectetur. Fusce condimentum ac quam sed imperdiet. Aenean ut arcu a risus lacinia tristique in sed lorem. Curabitur in urna ac lorem sollicitudin euismod at quis neque. Nunc mattis vehicula dignissim. Cras eu elementum mi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla semper nibh consectetur convallis volutpat. Quisque consequat mi sed est iaculis, vitae ullamcorper orci semper. Mauris aliquam eros nulla, nec lacinia turpis interdum nec. Nunc euismod felis id erat tristique tincidunt. Etiam tempus, mi in cursus sagittis, neque massa vestibulum odio, vitae venenatis neque lorem ac erat. Curabitur quis neque id mauris imperdiet accumsan.</small>
 
-    <small class="text-muted">Vestibulum eget massa nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Duis consectetur aliquam risus eu aliquet. Suspendisse mi quam, tempor ac tellus sit amet, molestie pellentesque justo. Nunc dictum eget ante sodales condimentum. Phasellus maximus lorem sit amet venenatis feugiat. Ut auctor lacinia consequat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam mattis iaculis justo malesuada iaculis. Sed metus ipsum, elementum eget lobortis vel, sodales ut enim. Aenean orci arcu, tincidunt et porta vitae, consectetur in diam. Fusce molestie nibh id nulla tristique elementum.</small>
+        <small class="text-muted">Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent id urna auctor, lobortis metus sed, faucibus augue. Suspendisse quam ipsum, sollicitudin sit amet mollis ac, vestibulum in eros. Fusce fringilla mi in ipsum euismod convallis. Nam pulvinar maximus cursus. Sed sit amet condimentum tortor. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent consequat sagittis lacus, vel porttitor ex vulputate vel. Integer vitae lobortis tortor, in aliquam lectus.</small>
 
-    <small class="text-muted">Donec nec felis porta, feugiat nulla eu, pretium lorem. Ut eu nunc ligula. Mauris dictum, mauris vitae molestie mollis, justo erat ullamcorper tellus, at venenatis quam leo non nibh. Proin placerat magna quis orci sagittis pharetra. Aenean pharetra ut ligula sit amet suscipit. Mauris quam augue, blandit eu pulvinar sed, volutpat consectetur est. Quisque sit amet massa mattis, rutrum ex vehicula, vestibulum felis.</small>
-</aside>
+        <small class="text-muted">Vestibulum eget massa nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Duis consectetur aliquam risus eu aliquet. Suspendisse mi quam, tempor ac tellus sit amet, molestie pellentesque justo. Nunc dictum eget ante sodales condimentum. Phasellus maximus lorem sit amet venenatis feugiat. Ut auctor lacinia consequat. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam mattis iaculis justo malesuada iaculis. Sed metus ipsum, elementum eget lobortis vel, sodales ut enim. Aenean orci arcu, tincidunt et porta vitae, consectetur in diam. Fusce molestie nibh id nulla tristique elementum.</small>
+
+        <small class="text-muted">Donec nec felis porta, feugiat nulla eu, pretium lorem. Ut eu nunc ligula. Mauris dictum, mauris vitae molestie mollis, justo erat ullamcorper tellus, at venenatis quam leo non nibh. Proin placerat magna quis orci sagittis pharetra. Aenean pharetra ut ligula sit amet suscipit. Mauris quam augue, blandit eu pulvinar sed, volutpat consectetur est. Quisque sit amet massa mattis, rutrum ex vehicula, vestibulum felis.</small>
+    </aside>
+}
 
 
 @code {
@@ -75,6 +86,7 @@ else
     private List<MyInteger> myIntegers = new();
     private string strPersons = "";
     private bool isUpdating = false;
+    private string updateStopWatch = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -113,7 +125,7 @@ else
                 }
                 //var tasks = persons.ToList().Select(person => Http.PutAsJsonAsync<MyPerson>("Person", person));
                 //var updateResponse = await Task.WhenAll(tasks);
-                _ = await UpdateAllPersons(persons);
+                updateStopWatch = await UpdateAllPersons(persons);
                 persons = await GetAllPersons();
             }
         }
@@ -128,14 +140,17 @@ else
         }
     }
 
-    protected async Task<int> UpdateAllPersons(List<MyPerson> persons)
+    protected async Task<string> UpdateAllPersons(List<MyPerson> persons)
     {
         isUpdating = true;
         Console.WriteLine(persons);
         Console.WriteLine("UpdateAllPersons start");
-        var tasks = await Http.PutAsJsonAsync<List<MyPerson>>("person/persons", persons);
+        HttpResponseMessage? result = await Http.PutAsJsonAsync<List<MyPerson>>("person/persons", persons);
         Console.WriteLine("UpdateAllPersons complete");
-        if (tasks.IsSuccessStatusCode)
+        Console.WriteLine(result.ToString());
+        string resultString = await result.Content.ReadAsStringAsync();
+        Console.WriteLine(resultString);
+        if (result?.IsSuccessStatusCode == true)
         {
             Console.WriteLine("success");
         } else
@@ -143,7 +158,7 @@ else
             Console.WriteLine("failure");
         }
         isUpdating = false;
-        return 0;
+        return resultString ?? "";
     }
 
     protected async Task<List<MyPerson>> GetAllPersons()
