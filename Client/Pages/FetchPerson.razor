@@ -18,8 +18,8 @@
 
 @if (!isUpdating && persons.Any())
 {
-    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                Data="@persons" TItem="MyPerson" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" AllowPaging="true"
+                Data="@persons" TItem="MyPerson" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" PageSizeOptions="@pageSizeOptions" ShowPagingSummary="@showPagerSummary" PagingSummaryFormat="@pagingSummaryFormat" Page="@OnPage" PagerHorizontalAlign="@HorizontalAlign.Justify">
         <Columns>
             <RadzenDataGridColumn TItem="MyPerson" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="80px" TextAlign="TextAlign.Center" />
             <RadzenDataGridColumn TItem="MyPerson" Property="LegalName" Title="Legal Name" Width="160px" />
@@ -165,5 +165,27 @@ else
         }
         isUpdating = false;
         return new();
+    }
+
+    string pagingSummaryFormat = "Displaying page {0} of {1} (total {2} records)";
+    RadzenDataGrid<MyPerson> dataGrid = new();
+    IEnumerable<int> pageSizeOptions = new int[] { 10, 20, 30, 100 };
+    bool showPagerSummary = true;
+
+    async Task FirstPage()
+    {
+        await dataGrid.FirstPage();
+    }
+    async Task TenthPage()
+    {
+        await dataGrid.GoToPage(9);
+    }
+    async Task LastPage()
+    {
+        await dataGrid.LastPage();
+    }
+    void OnPage(PagerEventArgs args)
+    {
+        //
     }
 }

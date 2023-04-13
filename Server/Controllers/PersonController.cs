@@ -18,9 +18,9 @@ public class PersonController : ControllerBase
 {
     private readonly CallCenterDbContext _context;
     private readonly ILogger<PersonController> _logger;
-    private readonly PersonDataService _service;
+    private readonly IPersonDataService _service;
 
-    public PersonController(CallCenterDbContext context, ILogger<PersonController> logger, PersonDataService service)
+    public PersonController(CallCenterDbContext context, ILogger<PersonController> logger, IPersonDataService service)
     {
         _context = context;
         _logger = logger;
@@ -53,7 +53,7 @@ public class PersonController : ControllerBase
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(Put), nameof(PersonController));
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
-            nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
+            nameof(Put), nameof(PersonController), stopwatch.ElapsedMilliseconds);
         return new();
     }
 
@@ -61,19 +61,7 @@ public class PersonController : ControllerBase
     public async Task<Stopwatch> PutMultiple(List<MyPerson> persons, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Begin {methodname} in {classname}", nameof(PutMultiple), nameof(PersonController));
-        string strMyPerson = JsonConvert.SerializeObject(persons);
-        _logger.LogInformation("Input is {name} with stringified value {value}", nameof(persons), strMyPerson);
-        foreach (var person in persons)
-        {
-            var databasePerson = await _context.Persons.FirstOrDefaultAsync(x => x.Id == person.Id, cancellationToken: cancellationToken);
-            if (databasePerson != null) { databasePerson.ModifiedDate = person.ModifiedDate; }
-        }
-        Stopwatch stopwatch = Stopwatch.StartNew();
-        await _context.SaveChangesAsync(cancellationToken);
-        stopwatch.Stop();
-        _logger.LogInformation("End {methodname} in {classname}", nameof(PutMultiple), nameof(PersonController));
-        _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
-            nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
+        Stopwatch stopwatch = await _service.PutMultiple(persons, cancellationToken);
         return stopwatch;
     }
 }
