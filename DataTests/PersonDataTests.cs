@@ -1,5 +1,7 @@
 using CallCenter.Data;
 using CallCenter.Data.Model;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace DataTests;
 public class PersonDataTests
@@ -56,15 +58,18 @@ public class PersonDataTests
     {
         // Arrange
         string? _connectionString = Configuration["ConnectionStrings:Default"];
+        var dbOption = new DbContextOptionsBuilder<CallCenterDbContext>()
+            .UseNpgsql("....")
+            .Options;
         if (string.IsNullOrWhiteSpace(_connectionString))
         {
             // fail fast because we have no connection string
             _ = true.Should().BeFalse();
             return;
         }
-        Mock<ILogger<PersonDataAccess>> mock = new();
-        ILogger<PersonDataAccess> logger = mock.Object;
-        PersonDataAccess personData = new(_connectionString, logger);
+        DbContextOptions<CallCenterDbContext> myDatabaseOption = new DbContextOptionsBuilder<CallCenterDbContext>().UseNpgsql(_connectionString).Options;
+        var context = new(myDatabaseOption);
+        PersonDataAccess personData = new(myDatabaseOption);
         CancellationTokenSource cancellationTokenSource = new();
         IEnumerable<MyPerson> result = await personData.GetPersons(cancellationTokenSource.Token);
         List<MyPerson> actual = result.ToList<MyPerson>();
@@ -78,9 +83,9 @@ public class PersonDataTests
         person.ModifiedDate = DateTime.UtcNow;
 
         // Act 
-        MyInteger response = await personData.UpdateMyPerson(person, cancellationTokenSource.Token);
+        int response = await personData.UpdateMyPerson(person, cancellationTokenSource.Token);
 
         // Assert
-        _ = response.Value.Should().Be(1);
+        _ = response.Should().Be(1);
     }
 }

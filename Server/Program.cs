@@ -4,6 +4,7 @@ using CallCenter.Server.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
 using Serilog;
 
@@ -19,11 +20,19 @@ builder.Services.AddServerSideBlazor();
 //builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>((services) =>
 //{
 //    return new PersonDataAccess(
+//        services.GetRequiredService
 //        services.GetRequiredService<IConfiguration>().GetConnectionString("Default")!,
 //        services.GetRequiredService<ILogger<PersonDataAccess>>());
 //});
+builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>();
 builder.Services.AddDbContext<CallCenterDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("default")));
-builder.Services.AddTransient<IPersonDataService,  PersonDataService>();
+builder.Services.AddScoped<IPersonDataService, PersonDataService>(
+    (services) =>
+    {
+        return new PersonDataService(
+            services.GetRequiredService<IPersonDataAccess>(),
+            services.GetRequiredService<ILogger<PersonDataService>>())
+    });
 builder.Host.UseSerilog((hostContext, services, configuration) =>
 {
     _ = configuration.ReadFrom.Configuration(hostContext.Configuration);

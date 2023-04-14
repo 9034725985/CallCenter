@@ -1,42 +1,41 @@
 ﻿using CallCenter.Data.Model;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace CallCenter.Data;
 
 public class PersonDataAccess : IPersonDataAccess
 {
-    private readonly string _connectionString;
-    private readonly ILogger<PersonDataAccess> _logger;
+    private readonly CallCenterDbContext _context;
 
-    public PersonDataAccess(string connectionString, ILogger<PersonDataAccess> logger)
+    public PersonDataAccess(CallCenterDbContext context)
     {
-        _connectionString = connectionString;
-        _logger = logger;
+        _context = context;
     }
 
     public async Task<IEnumerable<MyPerson>> GetPersons(CancellationToken cancellationToken)
     {
-        using NpgsqlConnection connection = new(_connectionString);
         IEnumerable<MyPerson> persons = await Task.Run(() => new List<MyPerson>());
-        _logger.LogDebug("{methodName} returned {result}", nameof(GetPersons), JsonConvert.SerializeObject(persons));
         return persons;
     }
 
-    public async Task<MyInteger> UpdateMyPerson(MyPerson person, CancellationToken cancellationToken)
+    public async Task<int> UpdateMyPerson(MyPerson person, CancellationToken cancellationToken)
     {
-        using NpgsqlConnection connection = new(_connectionString);
         int response = new();
-        await Task.Run(() => _logger.LogInformation("placeholder"));
-        _logger.LogDebug("{methodName} returned {response} for input of {input}", nameof(UpdateMyPerson), response, JsonConvert.SerializeObject(person));
-        MyInteger myInteger = new()
+        await Task.Run(() => _ = 1 + 1);
+        return 0;
+    }
+    public async Task<Stopwatch> PutMultiple(List<MyPerson> persons, CancellationToken cancellationToken)
+    {
+        string strMyPerson = JsonConvert.SerializeObject(persons);
+        foreach (var person in persons)
         {
-            Value = response,
-            Id = person.Id,
-            ExternalId = person.ExternalId,
-            CreatedBy = person.CreatedBy,
-            CreatedDate = person.CreatedDate,
-            ModifiedBy = person.ModifiedBy,
-            ModifiedDate = person.ModifiedDate
-        };
-        return myInteger;
+            var databasePerson = await _context.Persons.FirstOrDefaultAsync(x => x.Id == person.Id, cancellationToken: cancellationToken);
+            if (databasePerson != null) { databasePerson.ModifiedDate = person.ModifiedDate; }
+        }
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        await _context.SaveChangesAsync(cancellationToken);
+        stopwatch.Stop();
+        return stopwatch;
     }
 }
