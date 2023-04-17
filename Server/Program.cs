@@ -26,13 +26,6 @@ builder.Services.AddServerSideBlazor();
 //});
 builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>();
 builder.Services.AddDbContext<CallCenterDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("default")));
-builder.Services.AddScoped<IPersonDataService, PersonDataService>(
-    (services) =>
-    {
-        return new PersonDataService(
-            services.GetRequiredService<IPersonDataAccess>(),
-            services.GetRequiredService<ILogger<PersonDataService>>())
-    });
 builder.Host.UseSerilog((hostContext, services, configuration) =>
 {
     _ = configuration.ReadFrom.Configuration(hostContext.Configuration);

@@ -16,52 +16,34 @@ namespace CallCenter.Server.Controllers;
 [RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class PersonController : ControllerBase
 {
-    private readonly CallCenterDbContext _context;
     private readonly ILogger<PersonController> _logger;
-    private readonly IPersonDataService _service;
 
-    public PersonController(CallCenterDbContext context, ILogger<PersonController> logger, IPersonDataService service)
+    public PersonController(ILogger<PersonController> logger)
     {
-        _context = context;
         _logger = logger;
-        _service = service;
     }
 
     [HttpGet]
     public async Task<IEnumerable<MyPerson>> Get(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Begin {methodname} in {classname}", nameof(Get), nameof(PersonController));
-        Stopwatch stopwatch = Stopwatch.StartNew();
-        List<MyPerson> persons = await _context.Persons.ToListAsync(cancellationToken);
-        stopwatch.Stop();
-        _logger.LogInformation("End {methodname} in {classname}", nameof(Get), nameof(PersonController));
-        _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
-            nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
+        await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(Get), nameof(PersonController)), cancellationToken););
+        List<MyPerson> persons = new();
         return persons;
     }
 
     [HttpPut]
     public async Task<MyInteger> Put(MyPerson person, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Begin {methodname} in {classname}", nameof(Put), nameof(PersonController));
-        string strMyPerson = JsonConvert.SerializeObject(person);
-        _logger.LogInformation("Input is {name} with stringified value {value}", nameof(person), strMyPerson);
-        Stopwatch stopwatch = Stopwatch.StartNew();
-        var databasePerson = await _context.Persons.FirstOrDefaultAsync(x => x.Id == person.Id);
-        if (databasePerson != null) { databasePerson.ModifiedDate = person.ModifiedDate; }
-        await _context.SaveChangesAsync(cancellationToken);
-        stopwatch.Stop();
-        _logger.LogInformation("End {methodname} in {classname}", nameof(Put), nameof(PersonController));
-        _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
-            nameof(Put), nameof(PersonController), stopwatch.ElapsedMilliseconds);
+        await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(Put), nameof(PersonController)), cancellationToken);
         return new();
     }
 
     [HttpPut("persons")]
     public async Task<Stopwatch> PutMultiple(List<MyPerson> persons, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Begin {methodname} in {classname}", nameof(PutMultiple), nameof(PersonController));
-        Stopwatch stopwatch = await _service.PutMultiple(persons, cancellationToken);
+        await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(PutMultiple), nameof(PersonController)), cancellationToken);
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        stopwatch.Stop();
         return stopwatch;
     }
 }
