@@ -1,11 +1,7 @@
-using CallCenter.Data;
 using CallCenter.Data.Model;
-using CallCenter.Server.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.Resource;
-using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace CallCenter.Server.Controllers;
@@ -26,7 +22,7 @@ public class PersonController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<MyPerson>> Get(CancellationToken cancellationToken)
     {
-        await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(Get), nameof(PersonController)), cancellationToken););
+        await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(Get), nameof(PersonController)), cancellationToken);
         List<MyPerson> persons = new();
         return persons;
     }

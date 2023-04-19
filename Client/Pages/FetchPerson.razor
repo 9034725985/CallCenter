@@ -69,123 +69,123 @@ else
 
 
 @code {
-    private List<MyPerson> persons = new();
-    private List<MyInteger> myIntegers = new();
-    private string strPersons = "";
-    private bool isUpdating = false;
-    private string updateStopWatch = "";
+private List<MyPerson> persons = new();
+private List<MyInteger> myIntegers = new();
+private string strPersons = "";
+private bool isUpdating = false;
+private string updateStopWatch = "";
 
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            persons = await GetAllPersons();
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-        finally
-        {
-            isUpdating = false;
-        }
-    }
+protected override async Task OnInitializedAsync()
+{
+try
+{
+persons = await GetAllPersons();
+}
+catch (AccessTokenNotAvailableException exception)
+{
+exception.Redirect();
+}
+catch (Exception e)
+{
+Console.WriteLine(e);
+}
+finally
+{
+isUpdating = false;
+}
+}
 
-    protected async Task UpdateMyPerson()
-    {
-        isUpdating = true;
-        try
-        {
-            persons = await GetAllPersons();
-            if (persons.Any())
-            {
-                myIntegers = new();
-                foreach (MyPerson person in persons)
-                {
-                    person.ModifiedBy = person.Id;
-                    person.ModifiedDate = DateTime.UtcNow;
-                    //var response = await Http.PutAsJsonAsync<MyPerson>("Person", person);
-                }
-                //var tasks = persons.ToList().Select(person => Http.PutAsJsonAsync<MyPerson>("Person", person));
-                //var updateResponse = await Task.WhenAll(tasks);
-                updateStopWatch = await UpdateAllPersons(persons);
-                persons = await GetAllPersons();
-            }
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
-        finally
-        {
-            isUpdating = false;
-            Console.WriteLine("finally");
-        }
-    }
+protected async Task UpdateMyPerson()
+{
+isUpdating = true;
+try
+{
+persons = await GetAllPersons();
+if (persons.Any())
+{
+myIntegers = new();
+foreach (MyPerson person in persons)
+{
+    person.ModifiedBy = person.Id;
+    person.ModifiedDate = DateTime.UtcNow;
+    //var response = await Http.PutAsJsonAsync<MyPerson>("Person", person);
+}
+//var tasks = persons.ToList().Select(person => Http.PutAsJsonAsync<MyPerson>("Person", person));
+//var updateResponse = await Task.WhenAll(tasks);
+updateStopWatch = await UpdateAllPersons(persons);
+persons = await GetAllPersons();
+}
+}
+catch (AccessTokenNotAvailableException exception)
+{
+exception.Redirect();
+}
+finally
+{
+isUpdating = false;
+Console.WriteLine("finally");
+}
+}
 
-    protected async Task<string> UpdateAllPersons(List<MyPerson> persons)
-    {
-        isUpdating = true;
-        Console.WriteLine(persons);
-        Console.WriteLine("UpdateAllPersons start");
-        HttpResponseMessage? result = await Http.PutAsJsonAsync<List<MyPerson>>("person/persons", persons);
-        Console.WriteLine("UpdateAllPersons complete");
-        Console.WriteLine(result.ToString());
-        string resultString = await result.Content.ReadAsStringAsync();
-        Console.WriteLine(resultString);
-        if (result?.IsSuccessStatusCode == true)
-        {
-            Console.WriteLine("success");
-        }
-        else
-        {
-            Console.WriteLine("failure");
-        }
-        isUpdating = false;
-        return resultString ?? "";
-    }
+protected async Task<string> UpdateAllPersons(List<MyPerson> persons)
+{
+isUpdating = true;
+Console.WriteLine(persons);
+Console.WriteLine("UpdateAllPersons start");
+HttpResponseMessage? result = await Http.PutAsJsonAsync<List<MyPerson>>("person/persons", persons);
+Console.WriteLine("UpdateAllPersons complete");
+Console.WriteLine(result.ToString());
+string resultString = await result.Content.ReadAsStringAsync();
+Console.WriteLine(resultString);
+if (result?.IsSuccessStatusCode == true)
+{
+Console.WriteLine("success");
+}
+else
+{
+Console.WriteLine("failure");
+}
+isUpdating = false;
+return resultString ?? "";
+}
 
-    protected async Task<List<MyPerson>> GetAllPersons()
-    {
-        isUpdating = true;
-        string? strPrivatePersons = await Http.GetStringAsync("Person");
-        Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(GetAllPersons)}");
-        if (!string.IsNullOrWhiteSpace(strPrivatePersons))
-        {
-            strPersons = strPrivatePersons;
-            List<MyPerson>? myPersons = JsonConvert.DeserializeObject<List<MyPerson>>(strPrivatePersons);
-            if (myPersons != null && myPersons.Any())
-            {
-                return myPersons.OrderBy(x => x.Id).ToList();
-            }
-        }
-        isUpdating = false;
-        return new();
-    }
+protected async Task<List<MyPerson>> GetAllPersons()
+{
+isUpdating = true;
+string? strPrivatePersons = await Http.GetStringAsync("Person");
+Console.WriteLine($"{nameof(strPrivatePersons)} {strPrivatePersons} in ${nameof(GetAllPersons)}");
+if (!string.IsNullOrWhiteSpace(strPrivatePersons))
+{
+strPersons = strPrivatePersons;
+List<MyPerson>? myPersons = JsonConvert.DeserializeObject<List<MyPerson>>(strPrivatePersons);
+if (myPersons != null && myPersons.Any())
+{
+return myPersons.OrderBy(x => x.Id).ToList();
+}
+}
+isUpdating = false;
+return new();
+}
 
-    string pagingSummaryFormat = "Displaying page {0} of {1} (total {2} records)";
-    RadzenDataGrid<MyPerson> dataGrid = new();
-    IEnumerable<int> pageSizeOptions = new int[] { 10, 20, 30, 100 };
-    bool showPagerSummary = true;
+string pagingSummaryFormat = "Displaying page {0} of {1} (total {2} records)";
+RadzenDataGrid<MyPerson> dataGrid = new();
+IEnumerable<int> pageSizeOptions = new int[] { 10, 20, 30, 100 };
+bool showPagerSummary = true;
 
-    async Task FirstPage()
-    {
-        await dataGrid.FirstPage();
-    }
-    async Task TenthPage()
-    {
-        await dataGrid.GoToPage(9);
-    }
-    async Task LastPage()
-    {
-        await dataGrid.LastPage();
-    }
-    void OnPage(PagerEventArgs args)
-    {
-        //
-    }
+async Task FirstPage()
+{
+await dataGrid.FirstPage();
+}
+async Task TenthPage()
+{
+await dataGrid.GoToPage(9);
+}
+async Task LastPage()
+{
+await dataGrid.LastPage();
+}
+void OnPage(PagerEventArgs args)
+{
+//
+}
 }
