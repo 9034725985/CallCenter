@@ -11,7 +11,6 @@ namespace CallCenter.Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
 public class OpenPersonController : ControllerBase
 {
     private readonly ILogger<PersonController> _logger;
@@ -38,8 +37,8 @@ public class OpenPersonController : ControllerBase
         return persons;
     }
 
-    // for example, https://localhost:7109/openperson/single?id=1
-    [HttpGet("single")]
+    // for example, https://localhost:7109/openperson/1
+    [HttpGet("{id}")]
     public async Task<MyPerson?> GetPerson(int id, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Begin {methodname} in {classname}", nameof(GetPerson), nameof(PersonController));

@@ -3,6 +3,7 @@ using CallCenter.Server.MyPersons;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,29 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>();
 builder.Services.AddDbContext<CallCenterDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("default")));
 builder.Services.AddScoped<IMyPersonRepository, MyPersonRepository>();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Call Center API",
+        Description = "An ASP.NET Core Web API for managing Call Center",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "Example Contact",
+            Url = new Uri("https://example.com/contact")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Example License",
+            Url = new Uri("https://example.com/license")
+        }
+    });
+});
+
 builder.Host.UseSerilog((hostContext, services, configuration) =>
 {
     _ = configuration.ReadFrom.Configuration(hostContext.Configuration);
@@ -50,7 +74,14 @@ app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
 
-app.Run();
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = "swagger";
+});
+
+await app.RunAsync();
 
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
 //using Microsoft.Identity.Web;

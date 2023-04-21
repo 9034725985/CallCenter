@@ -23,7 +23,7 @@ public class PersonDataAccess : IPersonDataAccess
     {
         int response = new();
         await Task.Run(() => _ = 1 + 1);
-        return 0;
+        return response;
     }
     public async Task<Stopwatch> PutMultiple(List<MyPerson> persons, CancellationToken cancellationToken)
     {
