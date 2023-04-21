@@ -1,5 +1,6 @@
 using CallCenter.Data;
 using CallCenter.Data.Model;
+using CallCenter.Server.MyPersons;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web.Resource;
@@ -15,10 +16,12 @@ public class OpenPersonController : ControllerBase
 {
     private readonly ILogger<PersonController> _logger;
     private readonly CallCenterDbContext _context;
+    private readonly IMyPersonRepository _repository;
 
-    public OpenPersonController(CallCenterDbContext context, ILogger<PersonController> logger)
+    public OpenPersonController(CallCenterDbContext context, IMyPersonRepository repository, ILogger<PersonController> logger)
     {
         _context = context;
+        _repository = repository;
         _logger = logger;
     }
 
@@ -33,6 +36,20 @@ public class OpenPersonController : ControllerBase
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
             nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
         return persons;
+    }
+
+    // for example, https://localhost:7109/openperson/single?id=1
+    [HttpGet("single")]
+    public async Task<MyPerson?> GetPerson(int id, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("Begin {methodname} in {classname}", nameof(GetPerson), nameof(PersonController));
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        MyPerson? person = await _repository.GetPersonAsync(id, cancellationToken);
+        stopwatch.Stop();
+        _logger.LogInformation("End {methodname} in {classname}", nameof(GetPerson), nameof(PersonController));
+        _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
+            nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
+        return person;
     }
 
     [HttpPut]

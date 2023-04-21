@@ -1,4 +1,5 @@
 using CallCenter.Data;
+using CallCenter.Server.MyPersons;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
@@ -22,6 +23,7 @@ builder.Services.AddServerSideBlazor();
 //});
 builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>();
 builder.Services.AddDbContext<CallCenterDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("default")));
+builder.Services.AddScoped<IMyPersonRepository, MyPersonRepository>();
 builder.Host.UseSerilog((hostContext, services, configuration) =>
 {
     _ = configuration.ReadFrom.Configuration(hostContext.Configuration);
