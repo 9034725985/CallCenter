@@ -145,3 +145,18 @@ Description  : .NET is a fast, lightweight and modular platform for creating
 cd ~/src/dotnet/CallCenter; git remote update && git reset --hard @{u}; time git pull; time dotnet build; cd ~/src/dotnet/CallCenter/Server; time rm -r ~/src/dotnet/CallCenter/Server/bin/; time rm -r ~/src/dotnet/CallCenter/Server/obj/; time rm -r ~/src/dotnet/CallCenter/Client/bin/; time rm -r ~/src/dotnet/CallCenter/Client/obj/; time rm -r ~/src/dotnet/CallCenter/Shared/bin/; time rm -r ~/src/dotnet/CallCenter/Shared/obj/; time rm -r ~/src/dotnet/CallCenter/Data/bin/; time rm -r ~/src/dotnet/CallCenter/Data/obj/; time dotnet publish --configuration Release --os linux --self-contained true --verbosity detailed; time cp ~/src/dotnet/callcenterappconfig.json ~/src/dotnet/CallCenter/Server/bin/Release/net7.0/linux-x64/publish/appsettings.json; cd /home/kushal/src/dotnet/CallCenter/Server/bin/Release/net7.0/linux-x64/publish/ && ./CallCenter.Server --urls "https://0.0.0.0:7109;http://0.0.0.0:5286";
 
 // Invalid regular expression '**/Client/wwwroot/css/bootstrap/**/*' for setting 'sonar.issue.ignore.allfile'. Update your settings with a valid regular expression. ?? 
+
+
+
+$ cd ~/src/dotnet/; time git clone git@github.com:9034725985/CallCenter.git callcenter -b ef
+Cloning into 'callcenter'...
+remote: Enumerating objects: 671, done.
+remote: Counting objects: 100% (82/82), done.
+remote: Compressing objects: 100% (49/49), done.
+remote: Total 671 (delta 50), reused 59 (delta 33), pack-reused 589
+Receiving objects: 100% (671/671), 984.93 KiB | 3.91 MiB/s, done.
+Resolving deltas: 100% (341/341), done.
+
+real    0m1.288s
+user    0m0.203s
+sys     0m0.051s
