@@ -8,5 +8,7 @@ namespace CallCenter.Server.MyPersons
         Task<MyPerson?> GetPersonAsync(int id, CancellationToken token);
         Task<bool> GetPersonExistsAsync(int id, CancellationToken token);
         Task<List<MyPerson>> GetPersonsAsync(CancellationToken token);
+        MyInteger PutPerson(MyPerson person);
+        MyInteger PutPersons(List<MyPerson> persons);
     }
 }

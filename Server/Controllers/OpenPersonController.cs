@@ -55,12 +55,20 @@ public class OpenPersonController : ControllerBase
         await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(Put), nameof(PersonController)), token);
         string strMyPerson = JsonConvert.SerializeObject(person);
         _logger.LogInformation("Input is {name} with stringified value {value}", nameof(person), strMyPerson);
-        Stopwatch stopwatch = Stopwatch.StartNew();
         bool exists = await _repository.GetPersonExistsAsync(person.Id, token);
+        if (!exists)
+        {
+            return new()
+            {
+                Value = -1
+            };
+        }
+        Stopwatch stopwatch = Stopwatch.StartNew();
+        var result = _repository.PutPerson(person);
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(Put), nameof(PersonController));
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
             nameof(Get), nameof(PersonController), stopwatch.ElapsedMilliseconds);
-        return new();
+        return result;
     }
 }

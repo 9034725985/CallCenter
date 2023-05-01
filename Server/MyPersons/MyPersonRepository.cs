@@ -40,4 +40,20 @@ public class MyPersonRepository : IMyPersonRepository
         bool result = await _context.Persons.AnyAsync(x => x.Id == id, token);
         return result;
     }
+
+    public MyInteger PutPerson(MyPerson person)
+    {
+        _ = _context.Persons.Update(person);
+        return new();
+    }
+
+    public MyInteger PutPersons(List<MyPerson> persons)
+    {
+        foreach (MyPerson person in persons)
+        {
+            _context.Persons.Update(person);
+        }
+        _context.SaveChanges();
+        return new();
+    }
 }
