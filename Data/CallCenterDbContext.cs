@@ -7,7 +7,7 @@ namespace CallCenter.Data;
 public class CallCenterDbContext : DbContext
 {
     private readonly IConfiguration _configuration;
-    public DbSet<MyPerson> Persons { get; set; }
+    public required DbSet<MyPerson> Persons { get; set; }
 
     public CallCenterDbContext(IConfiguration configuration)
     {
