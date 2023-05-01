@@ -160,3 +160,10 @@ Resolving deltas: 100% (341/341), done.
 real    0m1.288s
 user    0m0.203s
 sys     0m0.051s
+
+
+with entity framework, list finished in 1.62 seconds and update finished in about 1.95 seconds (see screenshots below)
+
+![screenshot of a web browser showing get list of my persons operation](assets/listmypersons.png)
+
+![screenshot of a web browser showing update list of my persons operation](assets/updatemypersons.png)
