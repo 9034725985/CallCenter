@@ -14,22 +14,20 @@ namespace CallCenter.Server.Controllers;
 public class OpenPersonController : ControllerBase
 {
     private readonly ILogger<PersonController> _logger;
-    private readonly CallCenterDbContext _context;
     private readonly IMyPersonRepository _repository;
 
-    public OpenPersonController(CallCenterDbContext context, IMyPersonRepository repository, ILogger<PersonController> logger)
+    public OpenPersonController(IMyPersonRepository repository, ILogger<PersonController> logger)
     {
-        _context = context;
         _repository = repository;
         _logger = logger;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<MyPerson>> Get(CancellationToken cancellationToken)
+    public async Task<IEnumerable<MyPerson>> Get(CancellationToken token)
     {
         _logger.LogInformation("Begin {methodname} in {classname}", nameof(Get), nameof(PersonController));
         Stopwatch stopwatch = Stopwatch.StartNew();
-        List<MyPerson> persons = await _context.Persons.ToListAsync(cancellationToken);
+        List<MyPerson> persons = await _repository.GetPersonsAsync(token);
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(Get), nameof(PersonController));
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
@@ -39,11 +37,11 @@ public class OpenPersonController : ControllerBase
 
     // for example, https://localhost:7109/openperson/1
     [HttpGet("{id}")]
-    public async Task<MyPerson?> GetPerson(int id, CancellationToken cancellationToken)
+    public async Task<MyPerson?> GetPerson(int id, CancellationToken token)
     {
         _logger.LogInformation("Begin {methodname} in {classname}", nameof(GetPerson), nameof(PersonController));
         Stopwatch stopwatch = Stopwatch.StartNew();
-        MyPerson? person = await _repository.GetPersonAsync(id, cancellationToken);
+        MyPerson? person = await _repository.GetPersonAsync(id, token);
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(GetPerson), nameof(PersonController));
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
@@ -52,13 +50,13 @@ public class OpenPersonController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<MyInteger> Put(MyPerson person, CancellationToken cancellationToken)
+    public async Task<MyInteger> Put(MyPerson person, CancellationToken token)
     {
-        await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(Put), nameof(PersonController)), cancellationToken);
+        await Task.Run(() => _logger.LogInformation("Begin {methodname} in {classname}", nameof(Put), nameof(PersonController)), token);
         string strMyPerson = JsonConvert.SerializeObject(person);
         _logger.LogInformation("Input is {name} with stringified value {value}", nameof(person), strMyPerson);
         Stopwatch stopwatch = Stopwatch.StartNew();
-        bool exists = _context.Persons.Any(x => x.Id == person.Id);
+        bool exists = await _repository.GetPersonExistsAsync(person.Id, token);
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(Put), nameof(PersonController));
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
