@@ -12,7 +12,7 @@ for (int i = 0; i < iterations; i++)
     var response = await client.GetAsync(url);
     sw.Stop();
     long x = sw.ElapsedTicks;
-    Console.WriteLine($"Iteration {i} took {sw.ElapsedTicks} ticks or about {sw.Elapsed} milliseconds");
+    Console.WriteLine($"Iteration {i} took {sw.ElapsedTicks} ticks or about {sw.ElapsedMilliseconds} milliseconds");
 
     results.Add(x);
 }
