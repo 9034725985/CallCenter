@@ -8,11 +8,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CallCenter.Client", "Client
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CallCenter.Shared", "Shared\CallCenter.Shared.csproj", "{9BB0DDB2-25A9-4810-82DD-065E89FBB823}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientTests", "ClientTests\ClientTests.csproj", "{EAB51120-CC7F-4262-AE9C-69DCF3ED2029}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientTests", "ClientTests\ClientTests.csproj", "{EAB51120-CC7F-4262-AE9C-69DCF3ED2029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallCenter.Data", "Data\CallCenter.Data.csproj", "{33D4B157-B960-456C-85CB-D7C1428E9B83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CallCenter.Data", "Data\CallCenter.Data.csproj", "{33D4B157-B960-456C-85CB-D7C1428E9B83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTests", "DataTests\DataTests.csproj", "{EDB6B226-7804-43BC-93F7-3089E8795AB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTests", "DataTests\DataTests.csproj", "{EDB6B226-7804-43BC-93F7-3089E8795AB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallCenter.Benchmarks", "CallCenter.Benchmarks\CallCenter.Benchmarks.csproj", "{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +98,18 @@ Global
 		{EDB6B226-7804-43BC-93F7-3089E8795AB2}.Release|x64.Build.0 = Release|Any CPU
 		{EDB6B226-7804-43BC-93F7-3089E8795AB2}.Release|x86.ActiveCfg = Release|Any CPU
 		{EDB6B226-7804-43BC-93F7-3089E8795AB2}.Release|x86.Build.0 = Release|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Debug|x64.Build.0 = Debug|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Debug|x86.Build.0 = Debug|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Release|x64.ActiveCfg = Release|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Release|x64.Build.0 = Release|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Release|x86.ActiveCfg = Release|Any CPU
+		{75E0592A-F5EA-45B6-B6FE-44CB34BF4860}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
