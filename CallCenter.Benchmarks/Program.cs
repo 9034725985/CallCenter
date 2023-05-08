@@ -12,7 +12,7 @@ for (int i = 0; i < iterations; i++)
     var response = await client.GetAsync(url);
     sw.Stop();
     long x = sw.ElapsedTicks;
-    Console.WriteLine($"Iteration {i} took {sw.ElapsedTicks} ticks");
+    Console.WriteLine($"Iteration {i} took {sw.ElapsedTicks} ticks or about {sw.ElapsedTicks / TimeSpan.TicksPerSecond} seconds");
 
     results.Add(x);
 }
@@ -21,4 +21,4 @@ double median = results.Median();
 for (int i = 0; i < results.Count; i++)
 {
 }
-Console.WriteLine($"The median time taken to get {url} out of {iterations} attempts was {median} ticks");
+Console.WriteLine($"The median time taken to get {url} out of {iterations} attempts was {median} ticks or about {median / TimeSpan.TicksPerSecond} seconds");
