@@ -1,0 +1,27 @@
+
+Monday, May 8, 2023 6:29:47 PM
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  CallCenter.Benchmarks -> C:\Users\kushal\src\dotnet7\CallCenter\CallCenter.Benchmarks\bin\Release\net7.0\CallCenter.Benchmarks.dll
+Iteration 0 took 25172639 ticks or about 00:00:02.5172639 milliseconds
+Iteration 1 took 24446165 ticks or about 00:00:02.4446165 milliseconds
+Iteration 2 took 24493599 ticks or about 00:00:02.4493599 milliseconds
+Iteration 3 took 24458672 ticks or about 00:00:02.4458672 milliseconds
+Iteration 4 took 24294876 ticks or about 00:00:02.4294876 milliseconds
+Iteration 5 took 23275224 ticks or about 00:00:02.3275224 milliseconds
+Iteration 6 took 23305514 ticks or about 00:00:02.3305514 milliseconds
+Iteration 7 took 23324098 ticks or about 00:00:02.3324098 milliseconds
+Iteration 8 took 23339455 ticks or about 00:00:02.3339455 milliseconds
+Iteration 9 took 23290773 ticks or about 00:00:02.3290773 milliseconds
+Iteration 10 took 23274312 ticks or about 00:00:02.3274312 milliseconds
+Iteration 11 took 23447212 ticks or about 00:00:02.3447212 milliseconds
+Iteration 12 took 23293830 ticks or about 00:00:02.3293830 milliseconds
+Iteration 13 took 23215670 ticks or about 00:00:02.3215670 milliseconds
+Iteration 14 took 23207620 ticks or about 00:00:02.3207620 milliseconds
+Iteration 15 took 23253000 ticks or about 00:00:02.3253000 milliseconds
+Iteration 16 took 23333150 ticks or about 00:00:02.3333150 milliseconds
+Iteration 17 took 23343855 ticks or about 00:00:02.3343855 milliseconds
+Iteration 18 took 23307504 ticks or about 00:00:02.3307504 milliseconds
+Iteration 19 took 23311881 ticks or about 00:00:02.3311881 milliseconds
+Iteration 20 took 23249261 ticks or about 00:00:02.3249261 milliseconds
