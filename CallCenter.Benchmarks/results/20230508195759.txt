@@ -1,0 +1,110 @@
+
+Monday, May 8, 2023 7:57:59 PM
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  CallCenter.Benchmarks -> C:\Users\kushal\src\dotnet7\CallCenter\CallCenter.Benchmarks\bin\Release\net7.0\CallCenter.Benchmarks.dll
+Iteration 0 took 25160286 ticks or about 2516 milliseconds
+Iteration 1 took 24528170 ticks or about 2452 milliseconds
+Iteration 2 took 25627701 ticks or about 2562 milliseconds
+Iteration 3 took 24445519 ticks or about 2444 milliseconds
+Iteration 4 took 24337235 ticks or about 2433 milliseconds
+Iteration 5 took 25616716 ticks or about 2561 milliseconds
+Iteration 6 took 24542628 ticks or about 2454 milliseconds
+Iteration 7 took 25895840 ticks or about 2589 milliseconds
+Iteration 8 took 25434873 ticks or about 2543 milliseconds
+Iteration 9 took 24346711 ticks or about 2434 milliseconds
+Iteration 10 took 24343088 ticks or about 2434 milliseconds
+Iteration 11 took 24354247 ticks or about 2435 milliseconds
+Iteration 12 took 24547171 ticks or about 2454 milliseconds
+Iteration 13 took 24251315 ticks or about 2425 milliseconds
+Iteration 14 took 23116519 ticks or about 2311 milliseconds
+Iteration 15 took 23195140 ticks or about 2319 milliseconds
+Iteration 16 took 26957712 ticks or about 2695 milliseconds
+Iteration 17 took 28197164 ticks or about 2819 milliseconds
+Iteration 18 took 25429847 ticks or about 2542 milliseconds
+Iteration 19 took 24406447 ticks or about 2440 milliseconds
+Iteration 20 took 24251323 ticks or about 2425 milliseconds
+Iteration 21 took 24143874 ticks or about 2414 milliseconds
+Iteration 22 took 24239295 ticks or about 2423 milliseconds
+Iteration 23 took 24386467 ticks or about 2438 milliseconds
+Iteration 24 took 27261583 ticks or about 2726 milliseconds
+Iteration 25 took 24642926 ticks or about 2464 milliseconds
+Iteration 26 took 24299755 ticks or about 2429 milliseconds
+Iteration 27 took 24347734 ticks or about 2434 milliseconds
+Iteration 28 took 24303530 ticks or about 2430 milliseconds
+Iteration 29 took 28029130 ticks or about 2802 milliseconds
+Iteration 30 took 24620630 ticks or about 2462 milliseconds
+Iteration 31 took 24322648 ticks or about 2432 milliseconds
+Iteration 32 took 28608334 ticks or about 2860 milliseconds
+Iteration 33 took 27139577 ticks or about 2713 milliseconds
+Iteration 34 took 25833178 ticks or about 2583 milliseconds
+Iteration 35 took 28246079 ticks or about 2824 milliseconds
+Iteration 36 took 25800772 ticks or about 2580 milliseconds
+Iteration 37 took 24258872 ticks or about 2425 milliseconds
+Iteration 38 took 25975015 ticks or about 2597 milliseconds
+Iteration 39 took 24754310 ticks or about 2475 milliseconds
+Iteration 40 took 29505199 ticks or about 2950 milliseconds
+Iteration 41 took 29749486 ticks or about 2974 milliseconds
+Iteration 42 took 25899306 ticks or about 2589 milliseconds
+Iteration 43 took 24817955 ticks or about 2481 milliseconds
+Iteration 44 took 24385157 ticks or about 2438 milliseconds
+Iteration 45 took 24543930 ticks or about 2454 milliseconds
+Iteration 46 took 24579069 ticks or about 2457 milliseconds
+Iteration 47 took 24407786 ticks or about 2440 milliseconds
+Iteration 48 took 24457415 ticks or about 2445 milliseconds
+Iteration 49 took 24745138 ticks or about 2474 milliseconds
+Iteration 50 took 28332157 ticks or about 2833 milliseconds
+Iteration 51 took 24385346 ticks or about 2438 milliseconds
+Iteration 52 took 24408278 ticks or about 2440 milliseconds
+Iteration 53 took 25553254 ticks or about 2555 milliseconds
+Iteration 54 took 24426497 ticks or about 2442 milliseconds
+Iteration 55 took 24280132 ticks or about 2428 milliseconds
+Iteration 56 took 24205229 ticks or about 2420 milliseconds
+Iteration 57 took 24345335 ticks or about 2434 milliseconds
+Iteration 58 took 24242886 ticks or about 2424 milliseconds
+Iteration 59 took 23017420 ticks or about 2301 milliseconds
+Iteration 60 took 23385937 ticks or about 2338 milliseconds
+Iteration 61 took 23003045 ticks or about 2300 milliseconds
+Iteration 62 took 23093249 ticks or about 2309 milliseconds
+Iteration 63 took 24687170 ticks or about 2468 milliseconds
+Iteration 64 took 24626603 ticks or about 2462 milliseconds
+Iteration 65 took 24523180 ticks or about 2452 milliseconds
+Iteration 66 took 24343001 ticks or about 2434 milliseconds
+Iteration 67 took 23021536 ticks or about 2302 milliseconds
+Iteration 68 took 28288392 ticks or about 2828 milliseconds
+Iteration 69 took 25953017 ticks or about 2595 milliseconds
+Iteration 70 took 29773486 ticks or about 2977 milliseconds
+Iteration 71 took 25562179 ticks or about 2556 milliseconds
+Iteration 72 took 24820466 ticks or about 2482 milliseconds
+Iteration 73 took 24282731 ticks or about 2428 milliseconds
+Iteration 74 took 27949885 ticks or about 2794 milliseconds
+Iteration 75 took 24321863 ticks or about 2432 milliseconds
+Iteration 76 took 24517294 ticks or about 2451 milliseconds
+Iteration 77 took 24294416 ticks or about 2429 milliseconds
+Iteration 78 took 24111345 ticks or about 2411 milliseconds
+Iteration 79 took 24348276 ticks or about 2434 milliseconds
+Iteration 80 took 22930605 ticks or about 2293 milliseconds
+Iteration 81 took 23459183 ticks or about 2345 milliseconds
+Iteration 82 took 23118995 ticks or about 2311 milliseconds
+Iteration 83 took 23103088 ticks or about 2310 milliseconds
+Iteration 84 took 23490903 ticks or about 2349 milliseconds
+Iteration 85 took 24721212 ticks or about 2472 milliseconds
+Iteration 86 took 28808441 ticks or about 2880 milliseconds
+Iteration 87 took 24274363 ticks or about 2427 milliseconds
+Iteration 88 took 24410368 ticks or about 2441 milliseconds
+Iteration 89 took 24342345 ticks or about 2434 milliseconds
+Iteration 90 took 23107508 ticks or about 2310 milliseconds
+Iteration 91 took 23123001 ticks or about 2312 milliseconds
+Iteration 92 took 24157752 ticks or about 2415 milliseconds
+Iteration 93 took 23022662 ticks or about 2302 milliseconds
+Iteration 94 took 26705779 ticks or about 2670 milliseconds
+Iteration 95 took 24719646 ticks or about 2471 milliseconds
+Iteration 96 took 28310230 ticks or about 2831 milliseconds
+Iteration 97 took 24231574 ticks or about 2423 milliseconds
+Iteration 98 took 24662204 ticks or about 2466 milliseconds
+Iteration 99 took 24530266 ticks or about 2453 milliseconds
+The median time taken to get https://localhost:7109/openperson out of 100 attempts was 24436008 ticks.
+
+Monday, May 8, 2023 8:02:10 PM
+
