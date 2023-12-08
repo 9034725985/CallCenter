@@ -64,7 +64,7 @@ public class OpenPersonController : ControllerBase
             };
         }
         Stopwatch stopwatch = Stopwatch.StartNew();
-        var result = _repository.PutPerson(person);
+        var result = await _repository.PutPersonAsync(person, token);
         stopwatch.Stop();
         _logger.LogInformation("End {methodname} in {classname}", nameof(Put), nameof(PersonController));
         _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
