@@ -4,15 +4,8 @@ using System.Diagnostics;
 
 namespace CallCenter.Data;
 
-public class PersonDataAccess : IPersonDataAccess
+public class PersonDataAccess(CallCenterDbContext context) : IPersonDataAccess
 {
-    private readonly CallCenterDbContext _context;
-
-    public PersonDataAccess(CallCenterDbContext context)
-    {
-        _context = context;
-    }
-
     public async Task<IEnumerable<MyPerson>> GetPersons(CancellationToken cancellationToken)
     {
         IEnumerable<MyPerson> persons = await Task.Run(() => new List<MyPerson>());
@@ -30,11 +23,11 @@ public class PersonDataAccess : IPersonDataAccess
         string strMyPerson = JsonConvert.SerializeObject(persons);
         foreach (var person in persons)
         {
-            var databasePerson = await _context.Persons.FirstOrDefaultAsync(x => x.Id == person.Id, cancellationToken: cancellationToken);
+            var databasePerson = await context.Persons.FirstOrDefaultAsync(x => x.Id == person.Id, cancellationToken: cancellationToken);
             if (databasePerson != null) { databasePerson.ModifiedDate = person.ModifiedDate; }
         }
         Stopwatch stopwatch = Stopwatch.StartNew();
-        await _context.SaveChangesAsync(cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
         stopwatch.Stop();
         return stopwatch;
     }

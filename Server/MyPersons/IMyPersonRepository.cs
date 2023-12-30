@@ -1,5 +1,4 @@
 ﻿using CallCenter.Data.Model;
-using System.Linq.Dynamic.Core.Tokenizer;
 
 namespace CallCenter.Server.MyPersons
 {

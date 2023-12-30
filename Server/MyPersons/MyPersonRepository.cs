@@ -1,29 +1,18 @@
 ﻿using CallCenter.Data;
 using CallCenter.Data.Model;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
 using Polly;
 using Polly.Retry;
 using Polly.Bulkhead;
 
 namespace CallCenter.Server.MyPersons
 {
-    public class MyPersonRepository : IMyPersonRepository
+    public class MyPersonRepository(CallCenterDbContext context) : IMyPersonRepository
     {
-        private readonly CallCenterDbContext _context;
-        private readonly AsyncRetryPolicy _retryPolicy;
-        private readonly AsyncBulkheadPolicy _bulkheadPolicy;
-
-        public MyPersonRepository(CallCenterDbContext context)
-        {
-            _context = context;
-            _retryPolicy = Policy
+        private readonly AsyncRetryPolicy _retryPolicy = Policy
                 .Handle<Exception>()
                 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
-            _bulkheadPolicy = Policy.BulkheadAsync(5, 10); // Limit to 5 concurrent calls with a queue of 10
-        }
+        private readonly AsyncBulkheadPolicy _bulkheadPolicy = Policy.BulkheadAsync(5, 10);
 
         public async Task CreateAsync(MyPerson person)
         {
@@ -33,8 +22,8 @@ namespace CallCenter.Server.MyPersons
                 {
                     await Task.Run(() =>
                     {
-                        _context.Add(person);
-                        _context.SaveChanges();
+                        context.Add(person);
+                        context.SaveChanges();
                     });
                 });
             });
@@ -46,7 +35,7 @@ namespace CallCenter.Server.MyPersons
             {
                 return await _retryPolicy.ExecuteAsync(async () =>
                 {
-                    return await _context.Persons.Where(x => x.Id == id).FirstOrDefaultAsync<MyPerson>(token);
+                    return await context.Persons.Where(x => x.Id == id).FirstOrDefaultAsync<MyPerson>(token);
                 });
             });
         }
@@ -57,7 +46,7 @@ namespace CallCenter.Server.MyPersons
             {
                 return await _retryPolicy.ExecuteAsync(async () =>
                 {
-                    List<MyPerson> persons = await _context.Persons.ToListAsync(token);
+                    List<MyPerson> persons = await context.Persons.ToListAsync(token);
                     return persons ?? new();
                 });
             });
@@ -69,7 +58,7 @@ namespace CallCenter.Server.MyPersons
             {
                 return await _retryPolicy.ExecuteAsync(async () =>
                 {
-                    return await _context.Persons.AnyAsync(x => x.Id == id, token);
+                    return await context.Persons.AnyAsync(x => x.Id == id, token);
                 });
             });
         }
@@ -80,8 +69,8 @@ namespace CallCenter.Server.MyPersons
             {
                 await _retryPolicy.ExecuteAsync(async () =>
                 {
-                    _context.Persons.Update(person);
-                    await _context.SaveChangesAsync(token);
+                    context.Persons.Update(person);
+                    await context.SaveChangesAsync(token);
                 });
             });
             return new();
@@ -95,9 +84,9 @@ namespace CallCenter.Server.MyPersons
                 {
                     foreach (MyPerson person in persons)
                     {
-                        _context.Persons.Update(person);
+                        context.Persons.Update(person);
                     }
-                    await _context.SaveChangesAsync(token);
+                    await context.SaveChangesAsync(token);
                 });
             });
             return new();
