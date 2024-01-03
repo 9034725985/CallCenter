@@ -4,7 +4,7 @@ namespace CallCenter.Server.Validation;
 
 public class ValidationFailed
 {
-    List<ValidationFailure> Errors { get; set; } = new();
+    List<ValidationFailure> Errors { get; set; } = [];
     public ValidationFailed(List<ValidationFailure> errors)
     {
         if (errors != null && errors.Any()) { Errors.AddRange(errors); }

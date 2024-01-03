@@ -47,7 +47,7 @@ namespace CallCenter.Server.MyPersons
                 return await _retryPolicy.ExecuteAsync(async () =>
                 {
                     List<MyPerson> persons = await context.Persons.ToListAsync(token);
-                    return persons ?? new();
+                    return persons ?? [];
                 });
             });
         }

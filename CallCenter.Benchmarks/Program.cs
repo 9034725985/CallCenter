@@ -2,7 +2,7 @@
 using MathNet.Numerics.Statistics;
 
 int iterations = 100;
-List<double> results = new();
+List<double> results = [];
 string url = "https://localhost:7109/openperson";
 
 for (int i = 0; i < iterations; i++)
