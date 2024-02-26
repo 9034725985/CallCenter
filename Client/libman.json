@@ -5,7 +5,7 @@
 
     {
       "provider": "cdnjs",
-      "library": "bootstrap@5.3.2",
+      "library": "bootstrap@5.3.3",
       "destination": "wwwroot/css/bootstrap/"
     }
   ]
