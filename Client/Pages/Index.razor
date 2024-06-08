@@ -1,9 +1,21 @@
 ﻿@page "/"
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, Pratikchhya!</h1>
+<h1>Hello, @(userName)!</h1>
 
 Welcome to your new app.
 
 <SurveyPrompt Title="Potatoes are good for health!" />
+
+@code {
+    private string userName = "guest!";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        userName = user.Identity?.Name ?? "guest";
+    }
+}
