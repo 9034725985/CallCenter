@@ -7,6 +7,7 @@ namespace CallCenter.Data;
 public class CallCenterDbContext(IConfiguration configuration) : DbContext
 {
     public required DbSet<MyPerson> Persons { get; set; }
+    public required DbSet<Analytics> Analytics { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

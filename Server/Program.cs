@@ -1,4 +1,5 @@
 using CallCenter.Data;
+using CallCenter.Server.MyAnalytics;
 using CallCenter.Server.MyPersons;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddTransient<IPersonDataAccess, PersonDataAccess>();
 builder.Services.AddDbContext<CallCenterDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("default")));
 builder.Services.AddScoped<IMyPersonRepository, MyPersonRepository>();
+builder.Services.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

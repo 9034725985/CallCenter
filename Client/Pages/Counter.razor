@@ -1,4 +1,8 @@
 ﻿@page "/counter"
+@inject IHttpClientFactory ClientFactory
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ILogger<Index> Logger
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Counter</PageTitle>
 
@@ -9,10 +13,52 @@
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
-private int currentCount = 0;
+    private int currentCount = 0;
 
-private void IncrementCount()
-{
-currentCount++;
-}
+    private void IncrementCount()
+    {
+        currentCount++;
+        _ = SendCounterAnalytics();
+    }
+    private string userName = "guest!";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUsername();
+        _ = SendAnalytics();
+    }
+
+    private async Task GetUsername()
+    {
+        AuthenticationState? authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        userName = authState?.User?.Identity?.IsAuthenticated == true ? authState.User.Identity.Name! : "Guest";
+    }
+
+    private async Task SendCounterAnalytics()
+    {
+        string? clientDateTime = await JSRuntime.InvokeAsync<string>("getClientDateTime");
+        string dataKey = $"CounterValue-{clientDateTime}";
+        string dataValue = userName == "Guest" ? $"On CounterPage as Guest. Counter value is now {currentCount}" : $"On IndexPage with {userName}. Counter value is now {currentCount}";
+        await PostAnalytics(dataKey, dataValue);
+    }
+
+    private async Task SendAnalytics()
+    {
+        string? clientDateTime = await JSRuntime.InvokeAsync<string>("getClientDateTime");
+        string dataKey = $"PageVisit-{clientDateTime}";
+        string dataValue = userName == "Guest" ? "On CounterPage as Guest" : $"On IndexPage with {userName}";
+        await PostAnalytics(dataKey, dataValue);
+    }
+
+    private async Task PostAnalytics(string key, string value)
+    {
+        try
+        {
+            var analyticsData = new Data.Model.AnalyticsData { DataKey = key, DataValue = value };
+            var client = ClientFactory.CreateClient("public");
+            var response = await client.PostAsJsonAsync("analytics", analyticsData);
+            Logger.LogInformation(response.IsSuccessStatusCode ? "Analytics data created successfully." : $"Error creating analytics data: {response}");
+        }
+        catch { }
+    }
 }

@@ -2,6 +2,10 @@
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using CallCenter.Shared
+@inject IHttpClientFactory ClientFactory
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ILogger<Index> Logger
+@inject IJSRuntime JSRuntime
 @attribute [Authorize]
 @inject HttpClient Http
 
@@ -41,17 +45,47 @@ else
 }
 
 @code {
-private WeatherForecast[]? forecasts;
+    private WeatherForecast[]? forecasts;
 
-protected override async Task OnInitializedAsync()
-{
-try
-{
-forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
-}
-catch (AccessTokenNotAvailableException exception)
-{
-exception.Redirect();
-}
-}
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+        await GetUsername();
+        _ = SendAnalytics();
+    }
+
+    private string userName = "guest!";
+
+    private async Task GetUsername()
+    {
+        AuthenticationState? authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        userName = authState?.User?.Identity?.IsAuthenticated == true ? authState.User.Identity.Name! : "Guest";
+    }
+
+    private async Task SendAnalytics()
+    {
+        string? clientDateTime = await JSRuntime.InvokeAsync<string>("getClientDateTime");
+        string dataKey = $"PageVisit-{clientDateTime}";
+        string dataValue = userName == "Guest" ? "On FetchDataPage as Guest" : $"On FetchDataPage with {userName}";
+        await PostAnalytics(dataKey, dataValue);
+    }
+
+    private async Task PostAnalytics(string key, string value)
+    {
+        try
+        {
+            var analyticsData = new Data.Model.AnalyticsData { DataKey = key, DataValue = value };
+            var client = ClientFactory.CreateClient("public");
+            var response = await client.PostAsJsonAsync("analytics", analyticsData);
+            Logger.LogInformation(response.IsSuccessStatusCode ? "Analytics data created successfully." : $"Error creating analytics data: {response}");
+        }
+        catch { }
+    }
 }

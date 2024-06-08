@@ -35,6 +35,12 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="css/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script>
+        window.getClientDateTime = () => {
+            // Get the client's local date and time in the format "2024-06-08-12-13-44"
+            return new Date().toLocaleString('sv-SE').replace(' ', 'T').replace(/:/g, '-');
+        };
+    </script>
 </body>
 
 </html>
