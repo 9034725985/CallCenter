@@ -1,10 +1,10 @@
 .navbar-toggler {
-    background-color: var(--bs-body-bg);
+    background-color: var(--bs-secondary);
 }
 
 .top-row {
     height: 3.5rem;
-    background-color: var(--bs-body-bg);
+    background-color: var(--bs-secondary);
 }
 
 .navbar-brand {
@@ -32,7 +32,7 @@
     }
 
     .nav-item ::deep a {
-        color: var(--bs-body-color);
+        color: var(--bs-secondary);
         border-radius: 4px;
         height: 3rem;
         display: flex;
