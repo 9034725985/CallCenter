@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using CallCenter.Data.Model
+@using Newtonsoft.Json
 @inject IHttpClientFactory ClientFactory
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject ILogger<Index> Logger
@@ -10,14 +12,22 @@
 
 Welcome to your new app.
 
+@if (allAnalytics.Any())
+{
+    <p>Last user interaction was recorded at @allAnalytics.OrderByDescending(x => x.Id).First().CreatedAt UTC. It is now @DateTime.UtcNow UTC</p>
+}
+
 <SurveyPrompt Title="Potatoes are good for health!" />
 
 @code {
     private string userName = "guest!";
+    private List<Analytics> allAnalytics = [];
+    private string debugg = "";
 
     protected override async Task OnInitializedAsync()
     {
         await GetUsername();
+        allAnalytics = await GetAnalytics();
         _ = SendAnalytics();
     }
 
@@ -39,11 +49,38 @@ Welcome to your new app.
     {
         try
         {
-            var analyticsData = new Data.Model.AnalyticsData { DataKey = key, DataValue = value };
-            var client = ClientFactory.CreateClient("public");
-            var response = await client.PostAsJsonAsync("analytics", analyticsData);
+            AnalyticsData analyticsData = new Data.Model.AnalyticsData { DataKey = key, DataValue = value };
+            HttpClient client = ClientFactory.CreateClient("public");
+            HttpResponseMessage response = await client.PostAsJsonAsync("analytics", analyticsData);
             Logger.LogInformation(response.IsSuccessStatusCode ? "Analytics data created successfully." : $"Error creating analytics data: {response}");
         }
         catch { }
+    }
+    private async Task<List<Analytics>> GetAnalytics()
+    {
+        try
+        {
+            HttpClient? client = ClientFactory.CreateClient("public");
+            HttpResponseMessage? response = await client.GetAsync("analytics");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string? jsonString = await response.Content.ReadAsStringAsync();
+                debugg = jsonString;
+                List<Analytics> analyticsList = JsonConvert.DeserializeObject<List<Analytics>>(jsonString) ?? [];
+                Logger.LogInformation("Analytics data created successfully.");
+                return analyticsList ?? []; // Now you have a List<Analytics>
+            }
+            else
+            {
+                Logger.LogInformation($"Error creating analytics data: {response}");
+                return []; // Or handle the error as needed
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"An error occurred: {ex.Message}");
+            return []; // Or handle the exception as needed
+        }
     }
 }
