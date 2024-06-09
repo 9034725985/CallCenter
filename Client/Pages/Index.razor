@@ -56,8 +56,13 @@ Welcome to your new app.
         }
         catch { }
     }
+    /// <summary>
+    /// Get all analytics information
+    /// </summary>
+    /// <returns>List of all the analytics information</returns>
     private async Task<List<Analytics>> GetAnalytics()
     {
+        // TODO: only get what we need
         try
         {
             HttpClient? client = ClientFactory.CreateClient("public");
