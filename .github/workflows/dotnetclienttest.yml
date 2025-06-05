@@ -11,6 +11,10 @@ jobs:
         working-directory: ClientTests
     steps:
     - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 10.0.x
     - name: pwd
       run: pwd
     - name: clean
