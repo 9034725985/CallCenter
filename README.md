@@ -177,3 +177,63 @@ cd ~/src/dotnet/callcenter; time dotnet clean --verbosity=minimal; time dotnet b
 /usr/lib64/dotnet/sdk/7.0.105/Sdks/Microsoft.NET.ILLink.Tasks/build/Microsoft.NET.ILLink.targets(86,5): error NETSDK1144: Optimizing assemblies for size failed. Optimization can be disabled by setting the PublishTrimmed property to false. [/home/kushal/src/dotnet/callcenter/Server/CallCenter.Server.csproj]
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Microsoft.EntityFrameworkCore.DbUpdateException
+  HResult=0x80131500
+  Message=An error occurred while saving the entity changes. See the inner exception for details.
+  Source=<Cannot evaluate the exception source>
+  StackTrace:
+<Cannot evaluate the exception stack trace>
+
+Inner Exception 1:
+PostgresException: 23505: duplicate key value violates unique constraint "unique_referer_ipaddress_datakey"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+
+```csharp
+[HttpPost]
+public async Task<ActionResult> Create([FromBody] AnalyticsData analyticsData, CancellationToken token)
+{
+    _logger.LogInformation("Begin {methodname} in {classname}", nameof(Create), nameof(AnalyticsController));
+    Stopwatch stopwatch = Stopwatch.StartNew();
+
+    // Create a new Analytics object and populate it with data from analyticsData and server-side information
+    var analytics = new Analytics
+    {
+        DataKey = analyticsData.DataKey,
+        DataValue = analyticsData.DataValue,
+        IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
+        Referer = Request.Headers["Referer"].FirstOrDefault(),
+        CreatedAt = DateTime.UtcNow // Assuming you want to use UTC time
+    };
+
+    await _repository.CreateAsync(analytics, token);
+
+    stopwatch.Stop();
+    _logger.LogInformation("End {methodname} in {classname}", nameof(Create), nameof(AnalyticsController));
+    _logger.LogInformation("PerfMatters: {methodname} in {classname} returned in {stopwatchmilliseconds} milliseconds",
+        nameof(Create), nameof(AnalyticsController), stopwatch.ElapsedMilliseconds);
+
+    return CreatedAtAction(nameof(GetAnalytics), new { id = analytics.Id }, analytics);
+}
+```
