@@ -19,10 +19,25 @@ Welcome to your new app.
 
 <SurveyPrompt Title="Potatoes are good for health!" />
 
+<aside>
+    <h2>
+        What is this page about?
+    </h2>
+    <p>
+        This page does not require authentication and it showcases a lot of functionality of this application. 
+        In particular, it showcases the <pre>analytics</pre> functionality of this application, 
+        wherein we get the username of the currently logged in user, if available, 
+        or set the current username to "Guest". 
+        Next, we get the latest analytics data so far. 
+        After that, we send our analytics information which will then be the new latest analytics data. 
+        You can check this by visiting this page from another device.
+    </p>
+</aside>
+
 @code {
     private string userName = "guest!";
     private List<Analytics> allAnalytics = [];
-    private string debugg = "";
+    private string debug = "";
 
     protected override async Task OnInitializedAsync()
     {
@@ -71,7 +86,7 @@ Welcome to your new app.
             if (response.IsSuccessStatusCode)
             {
                 string? jsonString = await response.Content.ReadAsStringAsync();
-                debugg = jsonString;
+                debug = jsonString;
                 List<Analytics> analyticsList = JsonConvert.DeserializeObject<List<Analytics>>(jsonString) ?? [];
                 Logger.LogInformation("Analytics data created successfully.");
                 return analyticsList ?? []; // Now you have a List<Analytics>
