@@ -18,12 +18,12 @@
 		<PackageReference Include="Abp" Version="10.2.0" />
 		<PackageReference Include="FluentValidation" Version="12.0.0" />
 		<PackageReference Include="MediatR" Version="12.5.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0-preview.4.25258.110" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0-preview.4.25258.110" NoWarn="NU1605" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.0-preview.4.25258.110" NoWarn="NU1605" />
-		<PackageReference Include="Microsoft.Identity.Web" Version="3.9.2" />
-		<PackageReference Include="Microsoft.Identity.Web.UI" Version="3.9.2" />
-		<PackageReference Include="Polly" Version="8.5.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.0-preview.5.25277.114" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0-preview.5.25277.114" NoWarn="NU1605" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="10.0.0-preview.5.25277.114" NoWarn="NU1605" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="3.9.3" />
+		<PackageReference Include="Microsoft.Identity.Web.UI" Version="3.9.3" />
+		<PackageReference Include="Polly" Version="8.6.0" />
 		<PackageReference Include="Serilog" Version="4.3.1-dev-02373" />
 		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="9.0.1-dev-02307" />
@@ -32,7 +32,7 @@
 		<PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.1-dev-00953" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.4" />
 	</ItemGroup>
 
 </Project>
