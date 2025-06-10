@@ -40,7 +40,7 @@ public class AnalyticsRepository : IAnalyticsRepository
         {
             return await _retryPolicy.ExecuteAsync(async () =>
             {
-                return await _context.Analytics.FindAsync(new object[] { id }, token);
+                return await _context.Analytics.FindAsync([id], token);
             });
         });
     }
@@ -85,7 +85,7 @@ public class AnalyticsRepository : IAnalyticsRepository
         {
             await _retryPolicy.ExecuteAsync(async () =>
             {
-                var analytics = await _context.Analytics.FindAsync(new object[] { id }, token);
+                var analytics = await _context.Analytics.FindAsync([id], token);
                 if (analytics != null)
                 {
                     _context.Analytics.Remove(analytics);

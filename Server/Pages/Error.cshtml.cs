@@ -14,6 +14,7 @@ public class ErrorModel(ILogger<ErrorModel> logger) : PageModel
 
     public void OnGet()
     {
+        logger.LogInformation("Now executing {methodName} in {className}", nameof(OnGet), nameof(ErrorModel));
         RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
     }
 }

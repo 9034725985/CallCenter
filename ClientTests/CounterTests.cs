@@ -8,8 +8,8 @@ public class CounterTests
     public void CounterShouldIncrementWhenClicked()
     {
         // Arrange: render the Counter.razor component
-        using TestContext ctx = new();
-        IRenderedComponent<Counter> cut = ctx.RenderComponent<Counter>();
+        using BunitContext ctx = new();
+        using IRenderedComponent<Counter> cut = ctx.Render<Counter>();
 
         // Act: find and click the <button> element to increment
         // the counter in the <p> element
